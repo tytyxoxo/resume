@@ -1,26 +1,102 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin "daisyui" {
+  themes: all;
 }
 
+/* Make Tailwind dark: classes respond to daisyUI's data-theme="dark" */
+@variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* Theme toggle updates instantly, independent from page transition */
+::view-transition-old(theme-toggle),
+::view-transition-new(theme-toggle) {
+  animation: none;
+}
+
+/* View Transitions API — circle expand / collapse */
+
+/* → dark: new theme expands outward */
+[data-theme-transition="expand"]::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+[data-theme-transition="expand"]::view-transition-new(root) {
+  animation: 500ms ease-out both circle-expand;
+  z-index: 2;
+}
+
+/* → light: old theme collapses inward */
+[data-theme-transition="collapse"]::view-transition-old(root) {
+  animation: 500ms ease-in both circle-collapse;
+  z-index: 2;
+}
+[data-theme-transition="collapse"]::view-transition-new(root) {
+  animation: none;
+  z-index: 1;
+}
+
+@keyframes circle-expand {
+  from { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+}
+@keyframes circle-collapse {
+  from { clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+}
+
+/* Scroll reveal */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+}
+.reveal.visible {
+  animation: reveal-up 0.6s ease forwards;
+}
+
+/* Hero animations */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.6s ease forwards;
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* Background patterns */
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-base-content) 10%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ThemeToggle thumb travel distance per breakpoint */
+/* mobile: track(2.75rem) - thumb(1.125rem) - padding×2(0.25rem) */
+.theme-thumb { --thumb-travel: 1.375rem; }
+/* sm: track(3.5rem) - thumb(1.5rem) - padding×2(0.25rem) */
+@media (min-width: 640px) {
+  .theme-thumb { --thumb-travel: 1.75rem; }
 }
