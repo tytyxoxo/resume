@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function GraduationIcon() {
   return (
@@ -161,6 +162,7 @@ const techStack = [
 export default function Home() {
   return (
     <div className="bg-base-100 min-h-full">
+      <SpeedInsights />
       {/* ── Hero ─────────────────────────────────────── */}
       <section className="min-h-[calc(100vh-4rem)] flex items-center bg-dot-pattern relative overflow-hidden">
         {/* gradient blobs */}
