@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Portfolio", href: "/portfolio" },
   { label: "Contact", href: "/contact" },
   // { label: "SVLN", href: "/svln" },
-  { label: "Playground", href: "/playground" },
+  // { label: "Playground", href: "/playground" },
 ];
 
 export function Navbar() {
