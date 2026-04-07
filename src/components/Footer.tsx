@@ -2,8 +2,6 @@ import Link from "next/link";
 
 const socials = [
   { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Dribbble", href: "https://dribbble.com" },
-  { label: "GitHub", href: "https://github.com" },
   { label: "Email", href: "mailto:hello@example.com" },
 ];
 
