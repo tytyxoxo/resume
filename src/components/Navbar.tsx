@@ -69,7 +69,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   style={{ color: "var(--color-base-content)" }}
-                  className={pathname === link.href ? "font-semibold" : ""}
+                  className={`font-medium ${pathname === link.href ? "text-primary" : ""}`}
                 >
                   {link.label}
                 </Link>
@@ -79,9 +79,9 @@ export function Navbar() {
         </div>
 
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold">
+        {/* <Link href="/" className="text-xl font-bold">
           Tyty's Resume
-        </Link>
+        </Link> */}
 
         {/* Theme toggle — desktop only, next to logo */}
         <div className="hidden lg:flex ml-2">
@@ -98,7 +98,7 @@ export function Navbar() {
               <li key={link.href} className="relative group">
                 <Link
                   href={link.href}
-                  className={`relative transition-all duration-200 ${active ? "font-semibold" : "text-base-content/70 hover:text-base-content"}`}
+                  className={`relative font-medium transition-colors duration-200 ${active ? "text-primary" : "text-base-content/70 hover:text-base-content"}`}
                 >
                   {link.label}
                   {/* Hover underline — slides in from left */}

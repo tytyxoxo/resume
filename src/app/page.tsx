@@ -113,28 +113,49 @@ const expertise = [
     title: "JavaScript",
     desc: "Building interactive, performant web apps with modern ES6+ patterns and async programming.",
     tags: ["ES6+", "Node.js"],
+    color: "yellow",
+    iconBg: "bg-yellow-400/10",
+    iconText: "text-yellow-500",
+    iconHover: "group-hover:bg-yellow-400/20",
+    border: "hover:border-yellow-400/40",
+    glow: "from-yellow-400 to-yellow-500",
+    tagColor: "group-hover:border-yellow-400/40 group-hover:text-yellow-600/70",
   },
   {
     icon: "◈",
     title: "TypeScript",
     desc: "Writing type-safe, maintainable code with strong typing and better developer tooling.",
     tags: ["Type Safety", "Scalability"],
+    color: "blue",
+    iconBg: "bg-blue-400/10",
+    iconText: "text-blue-500",
+    iconHover: "group-hover:bg-blue-400/20",
+    border: "hover:border-blue-400/40",
+    glow: "from-blue-400 to-blue-500",
+    tagColor: "group-hover:border-blue-400/40 group-hover:text-blue-500/70",
   },
   {
     icon: "✦",
     title: "UI Development",
     desc: "Crafting clean, responsive interfaces with attention to detail, accessibility, and user experience.",
     tags: ["React", "Tailwind CSS"],
+    color: "cyan",
+    iconBg: "bg-cyan-400/10",
+    iconText: "text-cyan-500",
+    iconHover: "group-hover:bg-cyan-400/20",
+    border: "hover:border-cyan-400/40",
+    glow: "from-cyan-400 to-cyan-500",
+    tagColor: "group-hover:border-cyan-400/40 group-hover:text-cyan-500/70",
   },
 ];
 
 const techStack = [
   "React",
   "Next.js",
+  "JavaScript",
   "TypeScript",
   "Tailwind CSS",
   "Figma",
-  "Node.js",
 ];
 
 export default function Home() {
@@ -158,7 +179,7 @@ export default function Home() {
 
             <h1 className="animate-fade-up delay-200 text-4xl sm:text-5xl lg:text-6xl font-bold text-base-content mb-3 leading-tight">
               Passon
-              <br className="hidden sm:block" /> Rattanakongton.
+              <br className="hidden sm:block" /> Rattanakongton
             </h1>
             <h2 className="animate-fade-up delay-300 text-xl sm:text-2xl font-semibold text-primary mb-5">
               Frontend Developer
@@ -189,7 +210,7 @@ export default function Home() {
               </a>
               <a
                 href="/portfolio"
-                className="btn btn-ghost btn-sm sm:btn-md rounded-full border border-base-300"
+                className="btn btn-outline btn-primary btn-sm sm:btn-md rounded-full"
               >
                 View Portfolio
               </a>
@@ -227,9 +248,26 @@ export default function Home() {
                 Core Expertise
               </h2>
               <div className="flex gap-2 flex-wrap">
-                {["Figma", "React"].map((t) => (
-                  <span key={t} className="badge badge-outline badge-sm">
-                    {t}
+                {[
+                  {
+                    label: "JavaScript",
+                    color:
+                      "bg-yellow-400/10 text-yellow-600 border-yellow-400/30",
+                  },
+                  {
+                    label: "TypeScript",
+                    color: "bg-blue-400/10 text-blue-500 border-blue-400/30",
+                  },
+                  {
+                    label: "React",
+                    color: "bg-cyan-400/10 text-cyan-500 border-cyan-400/30",
+                  },
+                ].map(({ label, color }) => (
+                  <span
+                    key={label}
+                    className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${color}`}
+                  >
+                    {label}
                   </span>
                 ))}
               </div>
@@ -237,31 +275,61 @@ export default function Home() {
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {expertise.map(({ icon, title, desc, tags }, i) => (
-              <Reveal key={title} delay={i * 120}>
-                <div className="group card bg-base-100 border border-base-300 hover:border-primary/30 hover:shadow-lg transition-all duration-300 h-full">
-                  <div className="card-body gap-3 p-5">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-xl text-primary group-hover:bg-primary/20 transition-colors duration-300">
-                      {icon}
-                    </div>
-                    <h3 className="font-bold text-base-content">{title}</h3>
-                    <p className="text-base-content/55 text-sm leading-relaxed flex-1">
-                      {desc}
-                    </p>
-                    <div className="flex gap-1.5 flex-wrap pt-1">
-                      {tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="badge badge-xs badge-outline text-base-content/40"
+            {expertise.map(
+              (
+                {
+                  icon,
+                  title,
+                  desc,
+                  tags,
+                  iconBg,
+                  iconText,
+                  iconHover,
+                  border,
+                  glow,
+                  tagColor,
+                },
+                i,
+              ) => (
+                <Reveal key={title} delay={i * 120}>
+                  <div
+                    className={`group relative card bg-base-100 border border-base-300 ${border} hover:shadow-xl transition-all duration-300 h-full overflow-hidden`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-base-200/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    <div
+                      className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${glow} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}
+                    />
+                    <div className="card-body gap-4 p-5 relative">
+                      <div
+                        className={`w-11 h-11 rounded-2xl ${iconBg} ${iconHover} flex items-center justify-center text-xl ${iconText} group-hover:scale-110 transition-all duration-300`}
+                      >
+                        {icon}
+                      </div>
+                      <div>
+                        <h3
+                          className={`font-bold text-base-content text-base mb-1 transition-colors duration-300 ${iconText.replace("text-", "group-hover:text-")}`}
                         >
-                          {tag}
-                        </span>
-                      ))}
+                          {title}
+                        </h3>
+                        <p className="text-base-content/50 text-sm leading-relaxed">
+                          {desc}
+                        </p>
+                      </div>
+                      <div className="flex gap-1.5 flex-wrap mt-auto pt-1">
+                        {tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className={`px-2 py-0.5 rounded-full text-xs border border-base-300 text-base-content/40 ${tagColor} transition-colors duration-300`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -398,28 +466,180 @@ export default function Home() {
           <div className="flex flex-col gap-4">
             {education.map(({ icon, degree, school, year, note }, i) => (
               <Reveal key={degree} delay={i * 120}>
-                <div className="card bg-base-100 border border-base-300 hover:border-primary/30 hover:shadow-md transition-all duration-300 h-full">
-                  <div className="card-body flex-row gap-4 p-5 items-start">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-0.5">
+                <div className="group relative card bg-base-100 border border-base-300 hover:border-primary/40 hover:shadow-lg transition-all duration-300 overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  <div className="card-body flex-row gap-5 p-5 items-center">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
                       {icon}
                     </div>
-                    <div>
-                      <h3 className="font-bold text-base-content text-sm sm:text-base leading-snug mb-1">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-base-content text-sm sm:text-base leading-snug group-hover:text-primary transition-colors duration-300">
                         {degree}
                       </h3>
-                      <p className="text-base-content/55 text-xs sm:text-sm">
+                      <p className="text-base-content/55 text-xs sm:text-sm mt-0.5">
                         {school}
                       </p>
-                      <p className="text-base-content/35 text-xs mt-1">
-                        {year}
-                        {note ? ` · ${note}` : ""}
-                      </p>
+                      <div className="flex flex-wrap items-center gap-2 mt-2">
+                        <span className="text-xs text-base-content/40 bg-base-200 px-2 py-0.5 rounded-full">
+                          {year}
+                        </span>
+                        {note && (
+                          <span className="text-xs text-primary/60 bg-primary/8 px-2 py-0.5 rounded-full border border-primary/15">
+                            {note}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Skills ───────────────────────────────────── */}
+      <section className="py-16 sm:py-24 bg-dot-pattern">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8">
+          <Reveal className="mb-10 sm:mb-14">
+            <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
+              Tools & Tech
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-base-content">
+              Skills
+            </h2>
+          </Reveal>
+          <Reveal>
+            <div className="flex flex-wrap gap-3">
+              {[
+                {
+                  label: "JavaScript",
+                  color:
+                    "bg-yellow-400/10 text-yellow-600 border-yellow-400/30 hover:bg-yellow-400/20",
+                },
+                {
+                  label: "TypeScript",
+                  color:
+                    "bg-blue-400/10 text-blue-500 border-blue-400/30 hover:bg-blue-400/20",
+                },
+                {
+                  label: "React",
+                  color:
+                    "bg-cyan-400/10 text-cyan-500 border-cyan-400/30 hover:bg-cyan-400/20",
+                },
+                {
+                  label: "Next.js",
+                  color:
+                    "bg-base-content/5 text-base-content/70 border-base-300 hover:bg-base-content/10",
+                },
+                {
+                  label: "Tailwind CSS",
+                  color:
+                    "bg-teal-400/10 text-teal-500 border-teal-400/30 hover:bg-teal-400/20",
+                },
+                {
+                  label: "Node.js",
+                  color:
+                    "bg-green-400/10 text-green-600 border-green-400/30 hover:bg-green-400/20",
+                },
+                {
+                  label: "Git",
+                  color:
+                    "bg-orange-400/10 text-orange-500 border-orange-400/30 hover:bg-orange-400/20",
+                },
+                {
+                  label: "Figma",
+                  color:
+                    "bg-purple-400/10 text-purple-500 border-purple-400/30 hover:bg-purple-400/20",
+                },
+                {
+                  label: "REST API",
+                  color:
+                    "bg-base-content/5 text-base-content/70 border-base-300 hover:bg-base-content/10",
+                },
+                {
+                  label: "PostgreSQL",
+                  color:
+                    "bg-indigo-400/10 text-indigo-500 border-indigo-400/30 hover:bg-indigo-400/20",
+                },
+                {
+                  label: "Docker",
+                  color:
+                    "bg-sky-400/10 text-sky-500 border-sky-400/30 hover:bg-sky-400/20",
+                },
+                {
+                  label: "Vite",
+                  color:
+                    "bg-violet-400/10 text-violet-500 border-violet-400/30 hover:bg-violet-400/20",
+                },
+              ].map(({ label, color }) => (
+                <span
+                  key={label}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-200 cursor-default ${color}`}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Stats ────────────────────────────────────── */}
+      <section className="bg-base-200/50 py-12 sm:py-16 bg-dot-pattern">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8">
+          <Reveal>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { value: "3", label: "Years Experience" },
+                { value: "5", label: "Projects Shipped" },
+                { value: "10", label: "Teammates Worked With" },
+                { value: "1", label: "Company" },
+              ].map(({ value, label }) => (
+                <div
+                  key={label}
+                  className="card bg-base-100 border border-base-300 text-center p-5"
+                >
+                  <p className="text-3xl sm:text-4xl font-black text-primary mb-1">
+                    {value}
+                  </p>
+                  <p className="text-base-content/50 text-xs sm:text-sm">
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────── */}
+      <section className="py-16 sm:py-24 bg-dot-pattern">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8">
+          <Reveal>
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary to-secondary p-8 sm:p-14 text-center">
+              <div className="absolute inset-0 bg-dot-pattern opacity-10 pointer-events-none" />
+              <div className="relative">
+                <p className="text-primary-content/70 text-xs font-bold uppercase tracking-widest mb-3">
+                  Open to work
+                </p>
+                <h2 className="text-2xl sm:text-4xl font-black text-primary-content mb-4 leading-tight">
+                  Let&apos;s build something
+                  <br className="hidden sm:block" /> together.
+                </h2>
+                <p className="text-primary-content/70 text-sm sm:text-base mb-8 max-w-md mx-auto">
+                  Looking for a frontend developer who cares about quality and
+                  detail? Let&apos;s talk.
+                </p>
+                <a
+                  href="/contact"
+                  className="btn bg-white text-primary hover:bg-white/90 border-0 rounded-full btn-sm sm:btn-md font-bold shadow-lg"
+                >
+                  Get in touch →
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>
