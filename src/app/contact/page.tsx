@@ -1,6 +1,6 @@
 export default function Contact() {
   return (
-    <div className="bg-base-100 min-h-full flex flex-col">
+    <div className="bg-base-100 min-h-full flex flex-col bg-dot-pattern">
 
       {/* Form section */}
       <div className="max-w-2xl mx-auto px-6 py-20 w-full flex-1">

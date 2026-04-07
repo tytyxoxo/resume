@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -15,29 +15,50 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [lastY, setLastY] = useState(0);
+  const lastY = useRef(0);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const applyScrolled = (y: number) => {
+    const el = navRef.current;
+    if (!el) return;
+    if (y > 20) {
+      el.style.background = "var(--color-base-100)";
+      el.style.borderColor = "var(--color-base-200)";
+      el.style.backdropFilter = "blur(12px)";
+    } else {
+      el.style.background = "transparent";
+      el.style.borderColor = "transparent";
+      el.style.backdropFilter = "none";
+    }
+  };
+
+  // Apply correct bg on mount (before first scroll event)
+  useEffect(() => {
+    applyScrolled(window.scrollY);
+    lastY.current = window.scrollY;
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 20);
-      setVisible(y < lastY || y < 60);
-      setLastY(y);
+      applyScrolled(y);
+      setVisible(y < lastY.current || y < 60);
+      lastY.current = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [lastY]);
+  }, []);
 
   return (
     <div
-      className="navbar sticky top-0 z-50 border-b transition-all duration-300"
+      ref={navRef}
+      className="navbar sticky top-0 z-50 border-b transition-transform duration-300"
       style={{
         transform: visible ? "translateY(0)" : "translateY(-100%)",
-        background: scrolled ? "var(--color-base-100)" : "transparent",
-        borderColor: scrolled ? "var(--color-base-200)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
+        background: "transparent",
+        borderColor: "transparent",
+        backdropFilter: "none",
       }}
     >
       {/* Mobile hamburger */}
@@ -78,11 +99,6 @@ export function Navbar() {
           </ul>
         </div>
 
-        {/* Logo */}
-        {/* <Link href="/" className="text-xl font-bold">
-          Tyty's Resume
-        </Link> */}
-
         {/* Theme toggle — desktop only, next to logo */}
         <div className="hidden lg:flex ml-2">
           <ThemeToggle />
@@ -101,15 +117,13 @@ export function Navbar() {
                   className={`relative font-medium transition-colors duration-200 ${active ? "text-primary" : "text-base-content/70 hover:text-base-content"}`}
                 >
                   {link.label}
-                  {/* Hover underline — slides in from left */}
                   <span
                     className="absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-base-content/30 origin-left transition-transform duration-300"
                     style={{ transform: active ? "scaleX(0)" : "scaleX(0)" }}
                   />
                   <span className="absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-base-content/30 origin-left transition-transform duration-300 scale-x-0 group-hover:scale-x-100" />
-                  {/* Active underline */}
                   <span
-                    className="absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-primary transition-all duration-300"
+                    className="absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-primary transition-[transform,opacity] duration-300"
                     style={{
                       opacity: active ? 1 : 0,
                       transform: active ? "scaleX(1)" : "scaleX(0)",

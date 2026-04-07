@@ -25,7 +25,7 @@ export function ThemeToggle() {
       } as React.CSSProperties}
     >
       <span
-        className="theme-thumb absolute rounded-full shadow-md flex items-center justify-center transition-all duration-500 top-[0.125rem] w-[1.125rem] h-[1.125rem] sm:top-0.5 sm:w-6 sm:h-6"
+        className="theme-thumb absolute rounded-full shadow-md flex items-center justify-center transition-[transform,opacity] duration-500 top-[0.125rem] w-[1.125rem] h-[1.125rem] sm:top-0.5 sm:w-6 sm:h-6"
         style={{
           left: isDark ? "calc(0.125rem + var(--thumb-travel))" : "0.125rem",
           background: isDark ? "oklch(20% 0.03 260)" : "oklch(100% 0 0)",
@@ -34,7 +34,7 @@ export function ThemeToggle() {
         {/* Sun */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute transition-all duration-500 h-3 w-3 sm:h-3.5 sm:w-3.5"
+          className="absolute transition-[transform,opacity] duration-500 h-3 w-3 sm:h-3.5 sm:w-3.5"
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
           style={{
             opacity: isDark ? 0 : 1,
@@ -48,7 +48,7 @@ export function ThemeToggle() {
         {/* Moon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute transition-all duration-500 h-3 w-3 sm:h-3.5 sm:w-3.5"
+          className="absolute transition-[transform,opacity] duration-500 h-3 w-3 sm:h-3.5 sm:w-3.5"
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
           style={{
             opacity: isDark ? 1 : 0,

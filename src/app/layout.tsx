@@ -5,8 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageLoader } from "@/components/PageLoader";
-import { ScrollToTop } from "@/components/ScrollToTop";
-import { ScrollProgress } from "@/components/ScrollProgress";
+import { AskAILazy } from "@/components/AskAILazy";
+import { UIExtras } from "@/components/UIExtras";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,8 +41,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-base-100 text-base-content">
         <ThemeProvider>
           <PageLoader />
-          <ScrollProgress />
-          <ScrollToTop />
+          <UIExtras />
+          <AskAILazy />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

@@ -2,8 +2,28 @@ import { Reveal } from "@/components/Reveal";
 
 const projects = [
   {
-    title: "Enterprise Dashboard",
-    desc: "Redesigned the main analytics dashboard for web and mobile. Improved user retention by 40% within the first 6 months.",
+    title: "HR CheckIn Dashboard",
+    desc: "Admin web for monitoring employee information and exporting attendance reports. Built for HR teams to track daily check-in/check-out records.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+    status: "Production",
+    statusColor: "bg-success/10 text-success border-success/30",
+    year: "2025",
+    demo: "",
+    github: "",
+  },
+  {
+    title: "Admin Dashboard",
+    desc: "Centralized admin dashboard for managing platform data, users, and analytics across multiple products.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+    status: "Production",
+    statusColor: "bg-success/10 text-success border-success/30",
+    year: "2024",
+    demo: "",
+    github: "",
+  },
+  {
+    title: "Data Management Web",
+    desc: "Internal web tool for managing, importing, and exporting structured data with role-based access control.",
     tags: ["React", "TypeScript", "Tailwind CSS"],
     status: "Production",
     statusColor: "bg-success/10 text-success border-success/30",
@@ -12,32 +32,12 @@ const projects = [
     github: "",
   },
   {
-    title: "Component Library",
-    desc: "Built a shared component library used by 50+ developers and designers across multiple products.",
-    tags: ["React", "Storybook", "TypeScript"],
+    title: "OMS",
+    desc: "Order Management System for tracking and managing orders end-to-end — from creation through fulfillment and delivery.",
+    tags: ["React", "JavaScript", "Vite"],
     status: "Production",
     statusColor: "bg-success/10 text-success border-success/30",
     year: "2023",
-    demo: "",
-    github: "",
-  },
-  {
-    title: "Consumer Mobile App UI",
-    desc: "Developed the frontend for three consumer-facing mobile apps with focus on performance and accessibility.",
-    tags: ["React Native", "TypeScript"],
-    status: "Production",
-    statusColor: "bg-success/10 text-success border-success/30",
-    year: "2022",
-    demo: "",
-    github: "",
-  },
-  {
-    title: "Startup Prototype",
-    desc: "Worked directly with early-stage startup clients to create high-fidelity prototypes for investor demos.",
-    tags: ["Figma", "Next.js", "Tailwind CSS"],
-    status: "Completed",
-    statusColor: "bg-base-content/5 text-base-content/50 border-base-300",
-    year: "2021",
     demo: "",
     github: "",
   },
@@ -55,8 +55,8 @@ export default function Portfolio() {
             Portfolio
           </h1>
           <p className="text-base-content/50 text-sm sm:text-base max-w-lg">
-            A selection of projects I&apos;ve worked on — from enterprise
-            dashboards to early-stage startup prototypes.
+            A selection of projects I&apos;ve worked on — from order management
+            systems to admin dashboards and internal tools.
           </p>
         </Reveal>
 
@@ -67,7 +67,7 @@ export default function Portfolio() {
               i,
             ) => (
               <Reveal key={title} delay={i * 100}>
-                <div className="group relative card bg-base-100 border border-base-300 hover:border-primary/40 hover:shadow-xl transition-all duration-300 h-full overflow-hidden">
+                <div className="group relative card bg-base-100 border border-base-300 hover:border-primary/40 hover:shadow-xl transition duration-300 h-full overflow-hidden">
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                   <div className="card-body gap-4 p-5 sm:p-6">
                     <div className="flex items-start justify-between gap-3">
@@ -88,7 +88,7 @@ export default function Portfolio() {
                         {tags.map((tag) => (
                           <span
                             key={tag}
-                            className="px-2 py-0.5 rounded-full text-xs border border-base-300 text-base-content/40 group-hover:border-primary/30 group-hover:text-primary/50 transition-colors duration-300"
+                            className="px-2 py-0.5 rounded-full text-xs border border-base-300 text-base-content/40 group-hover:border-primary/40 group-hover:text-primary transition-colors duration-300"
                           >
                             {tag}
                           </span>

@@ -93,6 +93,26 @@ body {
   background-size: 24px 24px;
 }
 
+/* ── Mobile performance optimizations (< 640px) ────── */
+@media (max-width: 639px) {
+  /* Remove blur filters — GPU-intensive on mobile */
+  .blur-2xl, .blur-3xl { filter: none; }
+
+  /* Show reveal elements immediately — skip IntersectionObserver animation */
+  .reveal { opacity: 1; }
+  .reveal.visible { animation: none; }
+
+  /* Skip hero fade-up animations — reduces LCP delay */
+  .animate-fade-up { opacity: 1; animation: none; }
+
+  /* Stop continuous animations */
+  .animate-float { animation: none; }
+  .animate-ping  { animation: none; }
+
+  /* Remove dot pattern backgrounds */
+  .bg-dot-pattern { background-image: none; }
+}
+
 /* ThemeToggle thumb travel distance per breakpoint */
 /* mobile: track(2.75rem) - thumb(1.125rem) - padding×2(0.25rem) */
 .theme-thumb { --thumb-travel: 1.375rem; }
