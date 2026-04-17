@@ -164,15 +164,15 @@ export default function Home() {
     <div className="bg-base-100 min-h-full">
       <SpeedInsights />
       {/* ── Hero ─────────────────────────────────────── */}
-      <section className="min-h-[calc(100vh-4rem)] flex items-center bg-dot-pattern relative overflow-hidden">
+      <section className="min-h-[calc(100vh-4rem)] flex items-center bg-dot-pattern relative">
         {/* gradient blobs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-16 left-16 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-16 right-16 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
           {/* Left */}
           <div className="text-center lg:text-left">
-            <div className="animate-fade-up delay-100 inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-success/30 bg-success/5">
+            <div className="animate-fade-up delay-100 inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-success/30 bg-success/5 select-none cursor-default">
               <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
               <span className="text-success text-xs font-semibold tracking-wide">
                 Available for new opportunities
@@ -331,7 +331,7 @@ export default function Home() {
               ) => (
                 <Reveal key={title} delay={i * 120}>
                   <div
-                    className={`group relative card bg-base-100 border border-base-300 ${border} hover:shadow-xl transition duration-300 h-full overflow-hidden`}
+                    className={`group relative card bg-base-100 border border-base-300 ${border} hover:shadow-xl transition duration-300 h-full overflow-hidden select-none cursor-default`}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-base-200/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     <div

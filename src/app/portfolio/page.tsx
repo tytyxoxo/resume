@@ -22,7 +22,7 @@ const projects = [
     github: "",
   },
   {
-    title: "Data Management Web",
+    title: "Data Management System",
     desc: "Internal web tool for managing, importing, and exporting structured data with role-based access control.",
     tags: ["React", "TypeScript", "Tailwind CSS"],
     status: "Production",
@@ -32,7 +32,7 @@ const projects = [
     github: "",
   },
   {
-    title: "OMS",
+    title: "Order Management System",
     desc: "Order Management System for tracking and managing orders end-to-end — from creation through fulfillment and delivery.",
     tags: ["React", "JavaScript", "Vite"],
     status: "Production",
