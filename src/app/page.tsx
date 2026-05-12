@@ -192,7 +192,7 @@ export default function Home() {
             </p>
 
             {/* Tech stack pills */}
-            <div className="animate-fade-up delay-400 flex flex-wrap gap-2 justify-center lg:justify-start mb-8">
+            <div className="animate-fade-up delay-400 flex flex-wrap gap-2 justify-center lg:justify-start mb-8 select-none cursor-default">
               {techStack.map((t) => (
                 <span
                   key={t}
@@ -230,7 +230,7 @@ export default function Home() {
                   <span className="text-6xl font-black bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent select-none">
                     PR
                   </span>
-                  <div className="flex flex-col items-center gap-2">
+                  <div className="flex flex-col items-center gap-2 select-none cursor-default">
                     <p className="text-xs font-bold text-base-content/40 tracking-[0.2em] uppercase">
                       Frontend Dev
                     </p>
@@ -248,11 +248,11 @@ export default function Home() {
                 <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-secondary/20 rounded-bl-lg" />
               </div>
               {/* Floating badges */}
-              <div className="absolute -top-3 -right-6 bg-base-100 border border-base-300 rounded-xl px-3 py-1.5 shadow-lg text-xs font-semibold text-primary flex items-center gap-1.5 whitespace-nowrap">
+              <div className="absolute -top-3 -right-6 bg-base-100 border border-base-300 rounded-xl px-3 py-1.5 shadow-lg text-xs font-semibold text-primary flex items-center gap-1.5 whitespace-nowrap select-none cursor-default">
                 <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
                 Open to work
               </div>
-              <div className="absolute -bottom-3 -left-6 bg-base-100 border border-base-300 rounded-xl px-3 py-1.5 shadow-lg text-xs font-medium text-base-content/60 flex items-center gap-1.5 whitespace-nowrap">
+              <div className="absolute -bottom-3 -left-6 bg-base-100 border border-base-300 rounded-xl px-3 py-1.5 shadow-lg text-xs font-medium text-base-content/60 flex items-center gap-1.5 whitespace-nowrap select-none cursor-default">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="w-3.5 h-3.5 text-cyan-500"
@@ -285,7 +285,7 @@ export default function Home() {
               <h2 className="text-2xl sm:text-3xl font-bold text-base-content">
                 Core Expertise
               </h2>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap select-none cursor-default">
                 {[
                   {
                     label: "JavaScript",
@@ -435,7 +435,7 @@ export default function Home() {
             </div>
 
             {/* Desktop timeline */}
-            <ul className="timeline timeline-vertical hidden sm:block">
+            <ul className="timeline timeline-vertical hidden sm:block select-none cursor-default">
               {experiences.map(
                 ({ period, title, company, location, bullets }, i) => (
                   <li key={title + "-d"}>
@@ -501,7 +501,7 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 select-none cursor-default">
             {education.map(({ icon, degree, school, year, note }, i) => (
               <Reveal key={degree} delay={i * 120}>
                 <div className="group relative card bg-base-100 border border-base-300 hover:border-primary/40 hover:shadow-lg transition duration-300 overflow-hidden">
@@ -548,7 +548,7 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 select-none cursor-default">
               {[
                 {
                   label: "JavaScript",
@@ -607,7 +607,7 @@ export default function Home() {
       <section className="bg-base-200/50 py-12 sm:py-16 bg-dot-pattern">
         <div className="max-w-5xl mx-auto px-5 sm:px-8">
           <Reveal>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 select-none cursor-default">
               {[
                 { value: "3+", label: "Years Experience" },
                 { value: "5+", label: "Projects Shipped" },
@@ -642,7 +642,7 @@ export default function Home() {
               Currently Learning
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 select-none cursor-default">
             {[
               {
                 icon: (
@@ -761,7 +761,7 @@ export default function Home() {
               My Process
             </h2>
           </Reveal>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 select-none cursor-default">
             {[
               {
                 step: "01",
@@ -822,7 +822,7 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 select-none cursor-default">
               {[
                 {
                   name: "VS Code",
@@ -1109,7 +1109,7 @@ export default function Home() {
           <Reveal>
             <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary to-secondary p-8 sm:p-14 text-center">
               <div className="absolute inset-0 bg-dot-pattern opacity-10 pointer-events-none" />
-              <div className="relative">
+              <div className="relative select-none cursor-default">
                 <p className="text-primary-content/70 text-xs font-bold uppercase tracking-widest mb-3">
                   Open to work
                 </p>
