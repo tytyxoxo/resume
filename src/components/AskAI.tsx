@@ -5,9 +5,9 @@ import { useState, useRef, useEffect } from "react";
 type Message = { role: "user" | "ai"; text: string };
 
 const SUGGESTED = [
-  "What stack do you use?",
-  "Tell me about your experience",
-  "Are you open to work?",
+  "ใช้ stack อะไรบ้างคะ?",
+  "เล่าประสบการณ์ให้ฟังหน่อยได้มั้ย?",
+  "รับงานใหม่อยู่มั้ยคะ?",
 ];
 
 async function askAI(question: string): Promise<string> {
