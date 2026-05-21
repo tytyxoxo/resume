@@ -153,6 +153,7 @@ export function Navbar() {
             {/* Right side */}
             <div className="flex items-center gap-2 ml-auto">
               <ThemeToggle />
+              {/* Download CV — uncomment when cv.pdf is added to /public
               <a
                 href="/cv.pdf"
                 download
@@ -163,6 +164,7 @@ export function Navbar() {
                 </svg>
                 CV
               </a>
+              */}
 
               {/* Hamburger (mobile) */}
               <button
@@ -231,6 +233,7 @@ export function Navbar() {
             })}
           </nav>
 
+          {/* Download CV — uncomment when cv.pdf is added to /public
           <div className="px-4 pb-6">
             <a href="/cv.pdf" download className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold bg-primary text-primary-content hover:opacity-90 transition-opacity">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -239,6 +242,7 @@ export function Navbar() {
               Download CV
             </a>
           </div>
+          */}
         </div>
       </div>
     </>
