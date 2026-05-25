@@ -12,7 +12,7 @@ const SHORTCUTS = [
 export function KbdSection() {
   return (
     <Section title="Kbd">
-      <div className="w-full max-w-xs">
+      <div className="w-full">
         <ShortcutList shortcuts={SHORTCUTS} />
       </div>
     </Section>

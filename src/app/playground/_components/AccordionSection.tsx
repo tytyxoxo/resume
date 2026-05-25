@@ -19,7 +19,7 @@ const FAQ = [
 export function AccordionSection() {
   return (
     <Section title="Accordion">
-      <div className="w-full max-w-md">
+      <div className="w-full">
         <FaqAccordion items={FAQ} />
       </div>
     </Section>

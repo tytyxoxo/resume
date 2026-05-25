@@ -8,7 +8,7 @@ const SIZES = [
 export function TypographySection() {
   return (
     <Section title="Typography">
-      <div className="flex flex-col gap-1 w-full max-w-lg">
+      <div className="flex flex-col gap-1 w-full">
         {SIZES.map((size) => (
           <p key={size} className={`${size} font-semibold text-base-content`}>
             {size} — The quick brown fox

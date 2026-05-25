@@ -10,7 +10,7 @@ const TABS = [
 export function TabsSection() {
   return (
     <Section title="Tabs">
-      <div className="w-full max-w-lg">
+      <div className="w-full">
         <ContentTabs tabs={TABS} />
       </div>
     </Section>

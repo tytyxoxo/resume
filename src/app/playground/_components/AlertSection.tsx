@@ -17,7 +17,7 @@ export function AlertSection() {
 
   return (
     <Section title="Alert">
-      <div className="flex flex-col gap-3 w-full max-w-lg">
+      <div className="flex flex-col gap-3 w-full">
         <DismissibleAlerts key={key} alerts={INITIAL} />
         <button
           className="btn btn-sm btn-outline self-start"

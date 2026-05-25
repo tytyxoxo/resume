@@ -4,7 +4,7 @@ import { Section } from "./Section";
 export function RatingSection() {
   return (
     <Section title="Rating / Range">
-      <div className="flex flex-col gap-5 w-full max-w-sm bg-base-200 rounded-2xl p-5">
+      <div className="flex flex-col gap-5 w-full bg-base-200 rounded-2xl p-5">
         <div className="flex flex-col gap-2">
           <span className="text-sm font-medium">Rate this product</span>
           <StarRating defaultValue={4} name="product-rating" />

@@ -11,7 +11,7 @@ const DATA = [
 export function TableSection() {
   return (
     <Section title="Table">
-      <div className="w-full max-w-2xl">
+      <div className="w-full">
         <SelectableTable data={DATA} />
       </div>
     </Section>

@@ -4,7 +4,7 @@ import { Section } from "./Section";
 export function StatsSection() {
   return (
     <Section title="Stats">
-      <div className="stats stats-horizontal shadow w-full max-w-2xl flex-wrap">
+      <div className="stats stats-horizontal shadow w-full flex-wrap">
         <StatCard
           title="Projects"
           value="24"
