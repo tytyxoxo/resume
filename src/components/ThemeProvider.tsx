@@ -53,6 +53,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.style.setProperty("--vt-x", `${origin.x}px`);
       document.documentElement.style.setProperty("--vt-y", `${origin.y}px`);
     }
+    // Freeze one-shot hero animations so they don't re-trigger inside the transition
+    document.documentElement.setAttribute("data-animations-settled", "");
+
     // used by CSS to control expand vs collapse direction
     const isDarkTheme = newTheme === "dark";
     document.documentElement.setAttribute("data-theme-transition", isDarkTheme ? "expand" : "collapse");

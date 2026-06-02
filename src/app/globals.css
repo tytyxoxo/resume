@@ -7,18 +7,17 @@
 @variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Satoshi', system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
 }
 
-/* Override DaisyUI default pointer cursor on buttons/links */
-button, .btn, a {
-  cursor: default;
-}
+
 
 
 /* Theme toggle updates instantly, independent from page transition */
@@ -60,37 +59,96 @@ button, .btn, a {
 
 /* Scroll reveal */
 @keyframes reveal-up {
-  from { opacity: 0; transform: translateY(40px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes reveal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 .reveal {
   opacity: 0;
 }
 .reveal.visible {
-  animation: reveal-up 0.6s ease forwards;
+  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+/* Headings are already in position — fade without movement */
+.reveal.reveal--fade.visible {
+  animation: reveal-fade 0.5s ease forwards;
 }
 
 /* Hero animations */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Hero name: deliberate, expo easing — gives the name weight */
+@keyframes hero-name {
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-10px); }
 }
+.animate-hero-name {
+  opacity: 0;
+  animation: hero-name 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
 .animate-fade-up {
   opacity: 0;
-  animation: fade-up 0.6s ease forwards;
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
+.delay-250 { animation-delay: 0.25s; }
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 .delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+
+/* Prefers-reduced-motion — accessibility requirement */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; }
+  .reveal.visible { animation: none; }
+  .animate-fade-up { opacity: 1; animation: none; }
+  .animate-hero-name { opacity: 1; animation: none; }
+  .animate-float { animation: none; }
+  .animate-pulse { animation: none; }
+}
+
+/* After the first theme toggle, freeze one-shot hero animations at their
+   completed state. Prevents them re-triggering inside view transitions. */
+[data-animations-settled] .animate-hero-name,
+[data-animations-settled] .animate-fade-up {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* Inset gradient section rule — replaces hard full-width border-t */
+.section-rule {
+  position: relative;
+}
+.section-rule::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(20rem, 80%, 64rem);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--color-primary) 35%, transparent) 20%,
+    color-mix(in oklch, var(--color-primary) 35%, transparent) 80%,
+    transparent 100%
+  );
+}
 
 /* Background patterns */
 .bg-dot-pattern {
@@ -110,6 +168,7 @@ button, .btn, a {
 
   /* Skip hero fade-up animations — reduces LCP delay */
   .animate-fade-up { opacity: 1; animation: none; }
+  .animate-hero-name { opacity: 1; animation: none; }
 
   /* Stop continuous animations */
   .animate-float { animation: none; }

@@ -87,26 +87,30 @@ export default function Contact() {
           <Reveal delay={100}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-control gap-1">
-                <label className="label-text text-sm text-base-content/60">Name</label>
+                <label htmlFor="name" className="label-text text-sm text-base-content/60">Name</label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   placeholder="Your name"
                   className="input input-bordered w-full"
                   value={form.name}
                   onChange={handleChange}
+                  maxLength={100}
                   required
                 />
               </div>
               <div className="form-control gap-1">
-                <label className="label-text text-sm text-base-content/60">Email</label>
+                <label htmlFor="email" className="label-text text-sm text-base-content/60">Email</label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   placeholder="your@email.com"
                   className="input input-bordered w-full"
                   value={form.email}
                   onChange={handleChange}
+                  maxLength={254}
                   required
                 />
               </div>
@@ -114,27 +118,31 @@ export default function Contact() {
           </Reveal>
           <Reveal delay={200}>
             <div className="form-control gap-1">
-              <label className="label-text text-sm text-base-content/60">Subject</label>
+              <label htmlFor="subject" className="label-text text-sm text-base-content/60">Subject</label>
               <input
+                id="subject"
                 type="text"
                 name="subject"
                 placeholder="What's this about?"
                 className="input input-bordered w-full"
                 value={form.subject}
                 onChange={handleChange}
+                maxLength={200}
                 required
               />
             </div>
           </Reveal>
           <Reveal delay={300}>
             <div className="form-control gap-1">
-              <label className="label-text text-sm text-base-content/60">Message</label>
+              <label htmlFor="message" className="label-text text-sm text-base-content/60">Message</label>
               <textarea
+                id="message"
                 name="message"
                 placeholder="Tell me about your project..."
                 className="textarea textarea-bordered w-full h-36 resize-none"
                 value={form.message}
                 onChange={handleChange}
+                maxLength={5000}
                 required
               />
             </div>
@@ -232,26 +240,30 @@ export default function Contact() {
           <form id="booking-form" className="flex flex-col gap-3 mt-2" onSubmit={handleBookingSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="form-control gap-1">
-                <label className="label-text text-sm text-base-content/60">Name</label>
+                <label htmlFor="booking-name" className="label-text text-sm text-base-content/60">Name</label>
                 <input
+                  id="booking-name"
                   type="text"
                   name="name"
                   placeholder="Your name"
                   className="input input-bordered input-sm w-full"
                   value={booking.name}
                   onChange={handleBookingChange}
+                  maxLength={100}
                   required
                 />
               </div>
               <div className="form-control gap-1">
-                <label className="label-text text-sm text-base-content/60">Email</label>
+                <label htmlFor="booking-email" className="label-text text-sm text-base-content/60">Email</label>
                 <input
+                  id="booking-email"
                   type="email"
                   name="email"
                   placeholder="your@email.com"
                   className="input input-bordered input-sm w-full"
                   value={booking.email}
                   onChange={handleBookingChange}
+                  maxLength={254}
                   required
                 />
               </div>
@@ -268,8 +280,9 @@ export default function Contact() {
                 />
               </div>
               <div className="form-control gap-1">
-                <label className="label-text text-sm text-base-content/60">Time Slot</label>
+                <label htmlFor="booking-time" className="label-text text-sm text-base-content/60">Time Slot</label>
                 <select
+                  id="booking-time"
                   name="time"
                   className="select select-sm w-full"
                   value={booking.time}
@@ -284,13 +297,15 @@ export default function Contact() {
               </div>
             </div>
             <div className="form-control gap-1">
-              <label className="label-text text-sm text-base-content/60">Note (optional)</label>
+              <label htmlFor="booking-note" className="label-text text-sm text-base-content/60">Note (optional)</label>
               <textarea
+                id="booking-note"
                 name="note"
                 placeholder="What would you like to discuss?"
                 className="textarea textarea-bordered textarea-sm w-full h-20 resize-none"
                 value={booking.note}
                 onChange={handleBookingChange}
+                maxLength={1000}
               />
             </div>
             {bookingStatus === "error" && (

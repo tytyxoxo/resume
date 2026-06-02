@@ -1,37 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function ScrollToTop() {
-  const [visible, setVisible] = useState(false);
-  const [hasAskAI, setHasAskAI] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400);
+    const onScroll = () => {
+      const el = btnRef.current;
+      if (!el) return;
+      const show = window.scrollY > 400;
+      el.style.opacity = show ? "1" : "0";
+      el.style.pointerEvents = show ? "auto" : "none";
+      el.style.transform = show ? "translateY(0) scale(1)" : "translateY(16px) scale(0.8)";
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const check = () =>
-      setHasAskAI(!!document.querySelector('[aria-label="Ask AI"]'));
-    check();
-    const observer = new MutationObserver(check);
-    observer.observe(document.body, { childList: true, subtree: true });
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <button
+      ref={btnRef}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Scroll to top"
-      className={`fixed bottom-6 z-50 w-10 h-10 rounded-full bg-primary text-primary-content shadow-lg flex items-center justify-center hover:scale-110 hover:shadow-xl cursor-pointer ${hasAskAI ? "right-20" : "right-6"}`}
+      className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-primary text-primary-content shadow-lg flex items-center justify-center hover:scale-110 hover:shadow-xl cursor-pointer"
       style={{
-        opacity: visible ? 1 : 0,
-        pointerEvents: visible ? "auto" : "none",
-        transform: visible
-          ? "translateY(0) scale(1)"
-          : "translateY(16px) scale(0.8)",
+        opacity: 0,
+        pointerEvents: "none",
+        transform: "translateY(16px) scale(0.8)",
         transition: "opacity 0.3s ease, transform 0.3s ease",
       }}
     >
