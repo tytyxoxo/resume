@@ -3,7 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { FooterWrapper } from "@/components/FooterWrapper";
 import { PageLoader } from "@/components/PageLoader";
 import { AskAILazy } from "@/components/AskAILazy";
 import { UIExtras } from "@/components/UIExtras";
@@ -53,7 +53,7 @@ export default function RootLayout({
           <AskAILazy />
           <Navbar />
           <main id="main-content" className="flex-1">{children}</main>
-          <Footer />
+          <FooterWrapper />
         </ThemeProvider>
       </body>
     </html>

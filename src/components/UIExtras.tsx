@@ -16,12 +16,20 @@ const ScrollToTop = dynamic(
     })),
   { ssr: false },
 );
+const SectionDots = dynamic(
+  () =>
+    import("@/components/SectionDots").then((m) => ({
+      default: m.SectionDots,
+    })),
+  { ssr: false },
+);
 
 export function UIExtras() {
   return (
     <>
       <ScrollProgress />
       <ScrollToTop />
+      <SectionDots />
     </>
   );
 }

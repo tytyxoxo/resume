@@ -11,10 +11,26 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
 body {
   font-kerning: normal;
   font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
+}
+
+section[id] {
+  scroll-snap-align: start;
+  scroll-margin-top: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  section[id] {
+    scroll-snap-stop: always;
+  }
 }
 
 
@@ -176,6 +192,15 @@ body {
 
   /* Remove dot pattern backgrounds */
   .bg-dot-pattern { background-image: none; }
+}
+
+/* Navbar section label fade-in on section change */
+@keyframes navbar-label-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.navbar-label {
+  animation: navbar-label-in 0.2s ease forwards;
 }
 
 /* ThemeToggle thumb travel distance per breakpoint */
