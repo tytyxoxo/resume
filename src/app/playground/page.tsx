@@ -59,7 +59,7 @@ function Row3({ children }: { children: React.ReactNode }) {
 
 export default function Playground() {
   return (
-    <div className="min-h-full bg-base-200/40 bg-dot-pattern">
+    <div className="min-h-full bg-base-200/40">
       <div className="flex flex-col max-w-6xl gap-12 px-6 py-16 mx-auto">
 
         {/* Header */}

@@ -125,12 +125,11 @@ export function AskAI() {
 
       {/* Floating button */}
       <button
-        className="fixed bottom-6 right-6 z-[9997] w-10 h-10 rounded-full bg-primary text-primary-content shadow-lg flex items-center justify-center hover:scale-110 hover:shadow-xl transition-transform duration-200 cursor-pointer"
+        className="fixed bottom-6 right-6 z-[9997] w-10 h-10 rounded-full bg-primary text-primary-content shadow-md flex items-center justify-center hover:bg-primary/90 active:scale-95 transition-[background-color,transform] duration-150 cursor-pointer"
         onClick={() => setOpen((v) => !v)}
         aria-label="Ask AI"
       >
         <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center">
-          <span className="absolute w-4 h-4 rounded-full bg-success opacity-75 animate-ping" style={{ animationDuration: "2s" }} />
           <span className="relative w-3 h-3 rounded-full bg-success border-2 border-base-100" />
         </span>
         {open ? (

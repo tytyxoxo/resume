@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 const ScrollProgress = dynamic(
   () =>
@@ -16,20 +17,14 @@ const ScrollToTop = dynamic(
     })),
   { ssr: false },
 );
-const SectionDots = dynamic(
-  () =>
-    import("@/components/SectionDots").then((m) => ({
-      default: m.SectionDots,
-    })),
-  { ssr: false },
-);
 
 export function UIExtras() {
+  // The home page has its own section navigation (keys 1–6 and the 3D room)
+  const isHome = usePathname() === "/";
   return (
     <>
       <ScrollProgress />
-      <ScrollToTop />
-      <SectionDots />
+      {!isHome && <ScrollToTop />}
     </>
   );
 }

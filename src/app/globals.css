@@ -11,9 +11,29 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Journey cards float beside the object on wide screens and dock at the bottom elsewhere.
+   CameraRig.tsx uses the same condition to slide the picture away from the card. */
+@custom-variant side {
+  @media (min-width: 1024px) and (min-aspect-ratio: 1/1) {
+    @slot;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
+}
+
+@media (pointer: coarse) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -24,7 +44,6 @@ body {
 
 section[id] {
   scroll-snap-align: start;
-  scroll-margin-top: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -160,18 +179,12 @@ section[id] {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in oklch, var(--color-primary) 35%, transparent) 20%,
-    color-mix(in oklch, var(--color-primary) 35%, transparent) 80%,
+    color-mix(in oklch, var(--color-base-content) 10%, transparent) 20%,
+    color-mix(in oklch, var(--color-base-content) 10%, transparent) 80%,
     transparent 100%
   );
 }
 
-/* Background patterns */
-.bg-dot-pattern {
-  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-base-content) 10%, transparent) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: 12px 12px;
-}
 
 /* ── Mobile performance optimizations (< 640px) ────── */
 @media (max-width: 639px) {
@@ -191,7 +204,6 @@ section[id] {
   .animate-ping  { animation: none; }
 
   /* Remove dot pattern backgrounds */
-  .bg-dot-pattern { background-image: none; }
 }
 
 /* Navbar section label fade-in on section change */

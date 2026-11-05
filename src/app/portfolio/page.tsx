@@ -60,7 +60,7 @@ const projects = [
 
 export default function Portfolio() {
   return (
-    <div className="min-h-full bg-base-100 bg-dot-pattern">
+    <div className="min-h-full bg-base-100">
       <div className="max-w-5xl px-5 py-16 mx-auto sm:px-8 sm:py-24">
         <Reveal className="mb-10 sm:mb-14">
           <p className="mb-2 text-xs font-bold tracking-widest uppercase text-primary">
