@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  // AskAI is removed from the site for now; keep the endpoint closed so the API key cannot be spent by anyone
+  if (process.env.ASK_AI_ENABLED !== "true") {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "AI not configured" }, { status: 503 });
   }

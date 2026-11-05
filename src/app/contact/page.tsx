@@ -73,7 +73,7 @@ export default function Contact() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="bg-base-100 min-h-full flex flex-col bg-dot-pattern">
+    <div className="bg-base-100 min-h-full flex flex-col">
 
       {/* Form section */}
       <div className="max-w-2xl mx-auto px-6 py-20 w-full flex-1">

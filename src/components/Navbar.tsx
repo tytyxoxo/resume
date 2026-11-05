@@ -103,7 +103,7 @@ export function Navbar() {
               className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 rounded-full"
               aria-label="Home"
             >
-              <span className="flex items-center justify-center w-6 h-6 text-xs font-bold rounded-md bg-base-content text-base-100 transition-transform duration-200 group-hover:scale-110 shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 text-xs font-bold rounded-md bg-base-content text-base-100 shrink-0">
                 P
               </span>
               <span className="text-sm font-semibold text-base-content tracking-tight">
