@@ -2,22 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { sections } from "@/data/resume";
+import { useScene, useSystemReducedMotion } from "./scene/store";
+import { useTheme } from "./ThemeProvider";
 import { ThemeToggle } from "./ThemeToggle";
-
-const sections = [
-  { id: "hero",       label: "Home"       },
-  { id: "work",       label: "Work"       },
-  { id: "experience", label: "Experience" },
-  { id: "education",  label: "Education"  },
-  { id: "skills",     label: "Skills"     },
-  { id: "contact",    label: "Contact"    },
-];
 
 export function Navbar() {
   const pathname  = usePathname();
   const isHome    = pathname === "/";
-  const [visible, setVisible]             = useState(true);
-  const [activeSection, setActiveSection] = useState("hero");
+  const [visible, setVisible] = useState(true);
+  const section = useScene((s) => s.section); // set by the journey's scroll handler (HomeScene)
+  const motionOff = useScene((s) => s.motionOff);
+  const setMotionOff = useScene((s) => s.setMotionOff);
+  const systemReduced = useSystemReducedMotion();
+  const { mounted } = useTheme(); // the saved choice is only known on the client
   const lastY  = useRef(0);
   const bgRef  = useRef<HTMLDivElement>(null);
 
@@ -29,16 +27,6 @@ export function Navbar() {
     applyScroll(window.scrollY);
     lastY.current = window.scrollY;
 
-    const detectActive = () => {
-      const midY = window.scrollY + window.innerHeight * 0.5;
-      let current = sections[0].id;
-      for (const { id } of sections) {
-        const el = document.getElementById(id);
-        if (el && el.offsetTop <= midY) current = id;
-      }
-      setActiveSection(current);
-    };
-
     const onScroll = () => {
       const y = window.scrollY;
       applyScroll(y);
@@ -46,14 +34,8 @@ export function Navbar() {
       lastY.current = y;
     };
 
-    window.addEventListener("scroll",    onScroll,     { passive: true });
-    window.addEventListener("scrollend", detectActive, { passive: true });
-    detectActive();
-
-    return () => {
-      window.removeEventListener("scroll",    onScroll);
-      window.removeEventListener("scrollend", detectActive);
-    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
   const handleBrandClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -62,7 +44,7 @@ export function Navbar() {
     document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const label = sections.find((s) => s.id === activeSection)?.label ?? "";
+  const label = sections.find((s) => s.id === section)?.label ?? "";
 
   return (
     <header
@@ -111,13 +93,13 @@ export function Navbar() {
               </span>
             </a>
 
-            {/* Section label — homepage only */}
+            {/* Section label — homepage only; phones show it on the card itself */}
             {isHome && (
               <>
-                <span className="text-base-content/20 select-none text-sm" aria-hidden>·</span>
+                <span className="hidden text-base-content/20 select-none text-sm sm:inline" aria-hidden>·</span>
                 <span
-                  key={activeSection}
-                  className="navbar-label text-sm font-medium text-base-content/50 whitespace-nowrap"
+                  key={section}
+                  className="navbar-label hidden text-sm font-medium text-base-content/70 whitespace-nowrap sm:inline"
                 >
                   {label}
                 </span>
@@ -129,6 +111,29 @@ export function Navbar() {
               className="w-px h-4 bg-base-content/10 mx-1 shrink-0"
               aria-hidden
             />
+
+            <a
+              href="/resume"
+              aria-current={pathname === "/resume" ? "page" : undefined}
+              className="rounded-full text-sm font-medium text-base-content/70 transition-colors duration-200 hover:text-base-content aria-[current=page]:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70"
+            >
+              Resume
+            </a>
+
+            {/* WCAG 2.2.2: a way to stop the room's ambient motion (blinking tower lights, swaying plant, clock) */}
+            {isHome && mounted && !systemReduced && (
+              <button
+                type="button"
+                aria-pressed={motionOff}
+                aria-label="Pause animations"
+                onClick={() => setMotionOff(!motionOff)}
+                className="flex size-7 cursor-pointer items-center justify-center rounded-full text-base-content/70 transition-colors duration-200 hover:text-base-content aria-pressed:bg-base-content/10 aria-pressed:text-base-content focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  {motionOff ? <path d="M7 4.5v15l12-7.5z" /> : <path d="M8 5v14M16 5v14" />}
+                </svg>
+              </button>
+            )}
 
             <ThemeToggle />
           </div>

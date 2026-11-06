@@ -21,12 +21,13 @@ export const profile = {
   timeZone: "Asia/Bangkok",
   availability: "Available for new opportunities",
   summary:
-    "I build the internal tools teams run on every day: order management, HR and admin dashboards, with React, Next.js and TypeScript. Based in Bangkok, currently at Nutrition Profess.",
+    "I build the internal tools teams run on every day: a CRM, order management, HR and admin dashboards, with React, Next.js and TypeScript. Based in Bangkok, currently at Nutrition Profess.",
   email: "tyty.passon@gmail.com",
   linkedin: "https://www.linkedin.com/in/passon-rattanakongton",
+  resumePdf: "/Passon-Rattanakongton-Resume.pdf", // written by scripts/resume-pdf.mjs
 };
 
-export type ProjectId = "component-library" | "hr-checkin" | "admin-dashboard" | "data-management" | "oms";
+export type ProjectId = "crm" | "component-library" | "hr-checkin" | "admin-dashboard" | "data-management" | "oms";
 
 export type Project = {
   id: ProjectId;
@@ -42,6 +43,16 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    id: "crm",
+    name: "Outbound CRM",
+    short: "CRM",
+    year: "2026",
+    kind: "Internal",
+    status: "Production",
+    desc: "Internal CRM for outbound calling: call campaigns, customers and follow-ups, order taking, supervisor dashboards and role-based permissions.",
+    stack: ["React", "TypeScript", "Redux Toolkit", "Tailwind CSS"],
+  },
   {
     id: "component-library",
     name: "Design Component Library",
@@ -96,17 +107,26 @@ export const projects: Project[] = [
   },
 ];
 
-export const experience = [
+export type Role = {
+  period: string;
+  current: boolean;
+  title: string;
+  company: string;
+  location?: string;
+  stack: string[];
+  bullets: string[];
+};
+
+export const experience: Role[] = [
   {
     period: "2026 – Present",
     current: true,
     title: "Senior Frontend Developer",
     company: "Nutrition Profess",
     location: "Bangkok, Thailand",
-    stack: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    stack: ["React", "TypeScript", "Redux Toolkit", "Tailwind CSS"],
     bullets: [
-      "Built HR CheckIn Dashboard for monitoring employee attendance and exporting reports.",
-      "Developed Admin Dashboard for managing platform data, users, and analytics.",
+      "Building the company's internal CRM for outbound calling: campaigns, customers and follow-ups, orders, supervisor dashboards and role-based permissions.",
       "Mentored junior developers and helped improve team workflows.",
     ],
   },
@@ -116,11 +136,22 @@ export const experience = [
     title: "Frontend Developer",
     company: "Nutrition Profess",
     location: "Bangkok, Thailand",
-    stack: ["React", "JavaScript", "Tailwind CSS", "Figma"],
+    // the role's projects (see `projects`) used all of these
+    stack: ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Figma"],
     bullets: [
+      "Built HR CheckIn Dashboard for monitoring employee attendance and exporting reports.",
+      "Developed Admin Dashboard for managing platform data, users, and analytics.",
       "Built OMS (Order Management System) for tracking orders end-to-end.",
       "Developed Data Management Web for importing, exporting, and managing structured data.",
     ],
+  },
+  {
+    period: "2019 – 2023",
+    current: false,
+    title: "Video Editor & Motion Graphics",
+    company: "Freelance",
+    stack: [],
+    bullets: ["Edited videos and made motion graphics for clients through personal referrals, while moving into frontend development."],
   },
 ];
 
@@ -140,8 +171,8 @@ export const education = [
 ];
 
 // Hero stack line and the 3D macropad legends (8 keys) come from these two lists.
-export const stack = ["React", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS", "Figma"];
-export const toolchain = ["Next.js", "Tailwind CSS", "Git", "Figma", "Vite"];
+export const stack = ["React", "Next.js", "JavaScript", "TypeScript", "Redux Toolkit", "Tailwind CSS", "Figma"];
+export const toolchain = ["Next.js", "Tailwind CSS", "Figma", "Vite"];
 export const allTools = [...new Set([...stack, ...toolchain])];
 
 export const learning = [

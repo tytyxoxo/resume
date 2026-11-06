@@ -1,19 +1,27 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
 import { FooterWrapper } from "@/components/FooterWrapper";
 import { UIExtras } from "@/components/UIExtras";
+import { profile } from "@/data/resume";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
+const title = `${profile.name} · ${profile.role}`;
+
+// The share image is src/app/opengraph-image.jpg (regenerate: node scripts/og.mjs). Its absolute URL falls back
+// to VERCEL_PROJECT_PRODUCTION_URL; set metadataBase once the site has its own domain.
 export const metadata: Metadata = {
-  title: "Passon Rattanakongton · Senior Frontend Developer",
-  description: "Senior Frontend Developer based in Bangkok. React, Next.js, TypeScript, Tailwind CSS.",
+  title,
+  description: profile.summary,
+  openGraph: { title, description: profile.summary, type: "website", siteName: profile.name },
+  twitter: { card: "summary_large_image" },
   icons: {
     icon: "/favicon.svg",
   },
@@ -32,13 +40,14 @@ export default function RootLayout({
       className={`${geistMono.variable} h-full antialiased`}
     >
       <head>
-        {/* Apply the saved theme before first paint, so no loader screen is needed */}
+        {/* Apply the saved theme and animation choice before first paint, so no loader screen is needed */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}`,
+            __html: `try{var d=document.documentElement;if(localStorage.getItem("theme")==="dark")d.setAttribute("data-theme","dark");if(localStorage.getItem("motion")==="reduce")d.setAttribute("data-motion","reduce")}catch(e){}`,
           }}
         />
         <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
         <link
           href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,800,900&display=swap"
           rel="stylesheet"
@@ -57,6 +66,8 @@ export default function RootLayout({
           <main id="main-content" className="flex-1">{children}</main>
           <FooterWrapper />
         </ThemeProvider>
+        {/* in development it would load its debug script from a third-party CDN, which the CSP blocks */}
+        {process.env.NODE_ENV === "production" && <SpeedInsights />}
       </body>
     </html>
   );

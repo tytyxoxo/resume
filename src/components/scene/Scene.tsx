@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { ContactShadows, PresentationControls } from "@react-three/drei";
+import { ContactShadows, PerformanceMonitor, PresentationControls } from "@react-three/drei";
 import { Box3, NeutralToneMapping, Vector3, type Mesh } from "three";
 import { CameraRig } from "./CameraRig";
 import { Diorama } from "./Diorama";
@@ -11,6 +11,7 @@ import { SceneLighting } from "./SceneLighting";
 import { useScene } from "./store";
 
 const coarse = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+const MAX_DPR = coarse ? 1.5 : 2;
 
 // Dev only: window.__scene.points("lamp") → client {x, y} of each mesh of an object, for Playwright checks.
 function DevProbe() {
@@ -43,14 +44,17 @@ function DevProbe() {
 // The whole 3D room. Loaded client-side only (see HomeScene) after the text content is on screen.
 export default function Scene({ onReady }: { onReady: () => void }) {
   const overview = useScene((s) => s.section === "hero");
+  const [maxDpr, setMaxDpr] = useState(MAX_DPR);
   return (
     <Canvas
       shadows="percentage"
-      dpr={[1, coarse ? 1.5 : 2]}
+      dpr={[1, maxDpr]}
       gl={{ alpha: true, antialias: true, toneMapping: NeutralToneMapping }}
       camera={{ fov: 30, near: 0.05, far: 60, position: [5.6, 4.3, 5.6] }}
       onCreated={onReady}
     >
+      {/* Weak GPUs: render at 1x pixels while the frame rate is low, back up when it recovers; stop flipping after 3 */}
+      <PerformanceMonitor onDecline={() => setMaxDpr(1)} onIncline={() => setMaxDpr(MAX_DPR)} flipflops={3} onFallback={() => setMaxDpr(1)} />
       <SceneLighting shadowSize={coarse ? 1024 : 2048} />
       <CameraRig />
       <DevProbe />

@@ -366,7 +366,52 @@ function drawOms(ctx: CanvasRenderingContext2D, ink: Ink) {
   });
 }
 
+function drawCrm(ctx: CanvasRenderingContext2D, ink: Ink) {
+  chrome(ctx, ink, "Outbound CRM", "Operations");
+  card(ctx, 312, 150, 1688, 140, ink);
+  text(ctx, "November promotion", 350, 202, 40, 600, ink.text);
+  text(ctx, "Call campaign", 350, 250, 30, 400, ink.muted);
+  text(ctx, "38 of 120 called", 1960, 202, 30, 500, ink.muted, "mono", "right");
+  fillRound(ctx, 1180, 240, 780, 16, 8, ink.border);
+  fillRound(ctx, 1180, 240, 780 * (38 / 120), 16, 8, ink.accent);
+
+  card(ctx, 312, 322, 1100, 730, ink);
+  text(ctx, "Call list", 350, 376, 44, 600, ink.text);
+  [["Customer", 350], ["Segment", 820], ["Status", 1100]].forEach(([label, x]) =>
+    text(ctx, label as string, x as number, 446, 30, 500, ink.quiet),
+  );
+  line(ctx, 350, 484, 1374, 484, ink.border);
+  const calls = [
+    ["Kanokwan S.", "Repeat", "Follow up"],
+    ["Thanawat P.", "New", "Call back 14:00"],
+    ["Siriporn M.", "Repeat", "Ordered"],
+    ["Somsak R.", "Lapsed", "No answer"],
+    ["Pimchanok T.", "New", "Not called"],
+  ];
+  calls.forEach(([customer, segment, status], index) => {
+    const y = 544 + index * 104;
+    if (index === 0) fillRound(ctx, 334, y - 44, 1056, 88, 10, ink.page);
+    text(ctx, customer, 350, y, 32, index === 0 ? 600 : 500, index === 0 ? ink.accent : ink.text);
+    text(ctx, segment, 820, y, 30, 400, ink.muted);
+    text(ctx, status, 1100, y, 30, 500, ink.muted);
+    if (index < calls.length - 1) line(ctx, 350, y + 52, 1374, y + 52, ink.border);
+  });
+
+  card(ctx, 1436, 322, 564, 730, ink);
+  text(ctx, "Kanokwan S.", 1474, 380, 44, 600, ink.text);
+  text(ctx, "Repeat customer", 1474, 434, 30, 400, ink.muted);
+  line(ctx, 1474, 482, 1962, 482, ink.border);
+  text(ctx, "Last order", 1474, 536, 30, 500, ink.quiet);
+  text(ctx, "฿2,490", 1474, 590, 40, 600, ink.text, "mono");
+  text(ctx, "12 Oct 2026", 1962, 590, 30, 400, ink.muted, "mono", "right");
+  text(ctx, "Next step", 1474, 680, 30, 500, ink.quiet);
+  text(ctx, "Follow-up call", 1474, 732, 34, 500, ink.text);
+  button(ctx, "Call", 1474, 940, 236, ink, true);
+  button(ctx, "New order", 1726, 940, 236, ink);
+}
+
 const projectDrawers: Record<ProjectId, (ctx: CanvasRenderingContext2D, ink: Ink) => void> = {
+  crm: drawCrm,
   "component-library": drawComponents,
   "hr-checkin": drawAttendance,
   "admin-dashboard": drawAdmin,

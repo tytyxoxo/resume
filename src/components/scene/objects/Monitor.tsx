@@ -13,7 +13,7 @@ export function Monitor() {
   const p = usePalette();
   const mode = useMode();
   const section = useScene((state) => state.section);
-  const project = useScene((state) => state.project);
+  const project = useScene((state) => state.preview ?? state.project);
   const screenKey = section === "work" ? project : "home";
   const texture = useMemo(() => makeCanvasTexture(2048, 1152, () => {}), []);
   const displayTint = useMemo(() => new Color(p.screenBg).setScalar(mode === "light" ? 0.92 : 1), [mode, p.screenBg]);

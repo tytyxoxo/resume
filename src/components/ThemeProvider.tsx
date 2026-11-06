@@ -1,15 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useSyncExternalStore } from "react";
 
-export const THEMES = [
-  "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
-  "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden",
-  "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black",
-  "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade",
-  "night", "coffee", "winter", "dim", "nord", "sunset", "caramellatte",
-  "abyss", "silk",
-] as const;
+export const THEMES = ["light", "dark"] as const;
 
 export type Theme = (typeof THEMES)[number];
 
@@ -23,6 +16,8 @@ const ThemeContext = createContext<{
   setTheme: () => {},
 });
 
+const noop = () => () => {};
+
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
   const stored = localStorage.getItem("theme") as Theme | null;
@@ -32,16 +27,12 @@ function getInitialTheme(): Theme {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
-  const [mounted, setMounted] = useState(false);
+  // false while hydrating (server markup), true afterwards: lets the toggle render the stored theme safely
+  const mounted = useSyncExternalStore(noop, () => true, () => false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted) document.documentElement.setAttribute("data-theme", theme);
-  }, [theme, mounted]);
+  }, [theme]);
 
   const setTheme = (newTheme: Theme, origin?: { x: number; y: number }) => {
     localStorage.setItem("theme", newTheme);
@@ -53,9 +44,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.style.setProperty("--vt-x", `${origin.x}px`);
       document.documentElement.style.setProperty("--vt-y", `${origin.y}px`);
     }
-    // Freeze one-shot hero animations so they don't re-trigger inside the transition
-    document.documentElement.setAttribute("data-animations-settled", "");
-
     // used by CSS to control expand vs collapse direction
     const isDarkTheme = newTheme === "dark";
     document.documentElement.setAttribute("data-theme-transition", isDarkTheme ? "expand" : "collapse");

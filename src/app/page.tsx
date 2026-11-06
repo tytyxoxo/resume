@@ -1,4 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HomeScene } from "@/components/scene/HomeScene";
 import { STOPS } from "@/components/scene/journey";
 import { Hero } from "@/components/home/Hero";
@@ -13,7 +12,7 @@ import { allTools, education, experience, learning, type SectionId } from "@/dat
 function stage(id: SectionId) {
   const card = STOPS[id].card;
   const side = card === "left" ? "side:items-start" : card === "right" ? "side:items-end" : "";
-  return `pointer-events-none flex min-h-[100svh] flex-col justify-end px-3 pb-4 pt-20 sm:px-6 sm:pb-8 ${card === "bottom" ? "" : `side:justify-center side:px-[5vw] ${side}`}`;
+  return `pointer-events-none flex min-h-[100svh] flex-col justify-end px-3 pb-4 pt-20 sm:px-6 sm:pb-8 ${card === "bottom" ? "" : `side:justify-center side:px-[5vw] short:pt-16 short:pb-4 ${side}`}`;
 }
 
 export default function Home() {
@@ -32,19 +31,18 @@ export default function Home() {
 
         <section id="experience" aria-labelledby="experience-heading" className={stage("experience")}>
           <JourneyCard id="experience" title="Experience">
-            <ol className="space-y-5">
+            <ol className="space-y-5 short:space-y-3">
               {experience.map((role) => (
                 <li key={role.title}>
                   <p className={`font-mono text-xs tabular-nums ${role.current ? "text-primary" : "text-base-content/65"}`}>{role.period}</p>
                   <h3 className="mt-0.5 text-base font-semibold text-base-content">
                     {role.title} <span className="font-normal text-base-content/60">· {role.company}</span>
                   </h3>
-                  <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-relaxed text-base-content/80 marker:text-base-content/30">
+                  <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-relaxed text-base-content/80 marker:text-base-content/30 short:mt-1 short:space-y-0.5 short:leading-snug">
                     {role.bullets.map((b) => (
                       <li key={b}>{b}</li>
                     ))}
                   </ul>
-                  <p className="mt-2 font-mono text-xs text-base-content/65">{role.stack.join(" · ")}</p>
                 </li>
               ))}
             </ol>
@@ -76,12 +74,12 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <h3 className="mt-5 text-sm font-medium text-base-content/70">Currently learning</h3>
+            <h3 className="mt-5 text-sm font-medium text-base-content/70 short:mt-3">Currently learning</h3>
             <ul className="mt-1 divide-y divide-base-content/10">
               {learning.map((l) => (
-                <li key={l.title} className="py-2.5">
+                <li key={l.title} className="py-2.5 short:py-1.5">
                   <p className="text-sm font-semibold text-base-content">{l.title}</p>
-                  <p className="text-sm leading-relaxed text-base-content/70">{l.desc}</p>
+                  <p className="text-sm leading-relaxed text-base-content/70 short:leading-snug">{l.desc}</p>
                 </li>
               ))}
             </ul>
@@ -90,7 +88,6 @@ export default function Home() {
 
         <Contact className={stage("contact")} />
       </div>
-      <SpeedInsights />
     </>
   );
 }

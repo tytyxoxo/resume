@@ -1,7 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { useTheme } from "@/components/ThemeProvider";
+import { useScene, useSystemReducedMotion } from "./store";
 
 // One palette per theme. Light = Bangkok afternoon, dark = Bangkok night.
 // Objects take every colour from here so the room reads as one place.
@@ -102,15 +102,9 @@ export function usePalette(): Palette {
   return palettes[useMode()];
 }
 
-const reducedQuery = "(prefers-reduced-motion: reduce)";
+// No loops, final states set instantly: when the OS asks for reduced motion or the visitor paused animations.
 export function useReducedMotion() {
-  return useSyncExternalStore(
-    (cb) => {
-      const mq = window.matchMedia(reducedQuery);
-      mq.addEventListener("change", cb);
-      return () => mq.removeEventListener("change", cb);
-    },
-    () => window.matchMedia(reducedQuery).matches,
-    () => false,
-  );
+  const system = useSystemReducedMotion();
+  const paused = useScene((s) => s.motionOff);
+  return system || paused;
 }

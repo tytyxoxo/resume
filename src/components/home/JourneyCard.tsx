@@ -11,7 +11,7 @@ export function JourneyCard({ id, title, hint, children }: { id: SectionId; titl
   const prev = sections[i - 1];
   const next = sections[i + 1];
   return (
-    <div className="pointer-events-auto mx-auto w-full max-w-2xl rounded-2xl border border-base-content/10 bg-base-100 p-5 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.25)] sm:p-6 side:mx-0 side:w-[440px]">
+    <div className="pointer-events-auto mx-auto w-full max-w-2xl rounded-2xl border border-base-content/10 bg-base-100 p-5 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.25)] sm:p-6 side:mx-0 side:w-[440px] short:p-5">
       <div className="flex items-baseline justify-between gap-4">
         <h2 id={`${id}-heading`} className="text-xl font-semibold tracking-tight text-base-content sm:text-2xl">
           {title}
@@ -21,8 +21,8 @@ export function JourneyCard({ id, title, hint, children }: { id: SectionId; titl
         </p>
       </div>
       {hint && <p className="mt-1 text-sm text-base-content/65">{hint}</p>}
-      <div className="mt-5">{children}</div>
-      <div className="mt-6 flex items-center justify-between gap-4 border-t border-base-content/10 pt-3 text-sm">
+      <div className="mt-5 short:mt-3">{children}</div>
+      <div className="mt-6 short:mt-4 flex items-center justify-between gap-4 border-t border-base-content/10 pt-3 text-sm">
         {prev ? (
           <a href={`#${prev.id}`} className="py-1 text-base-content/70 transition-colors hover:text-base-content pointer-coarse:py-3">
             ← {prev.label}

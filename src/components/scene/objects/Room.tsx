@@ -95,6 +95,28 @@ function drawRug(ctx: CanvasRenderingContext2D, p: Palette) {
   ctx.globalAlpha = 1;
 }
 
+// Daytime facades: faint glass (ribbon windows or a punched grid) so the towers read as buildings, not cards.
+function drawFacade(ctx: CanvasRenderingContext2D, p: Palette, seed: number, color: string, x: number, top: number, width: number, bottom: number) {
+  const random = mulberry32(seed);
+  const glass = new Color(color).multiplyScalar(0.72).getStyle();
+  const sky = new Color(color).lerp(new Color(p.skyTop), 0.55).getStyle();
+  const ribbon = random() < 0.45;
+  const stepX = Math.max(12, Math.round(width / 6));
+  ctx.globalAlpha = 0.5;
+  for (let wy = top + 10; wy < bottom - 6; wy += 13) {
+    if (ribbon) {
+      ctx.fillStyle = random() < 0.2 ? sky : glass;
+      ctx.fillRect(x + 5, wy, width - 10, 5);
+      continue;
+    }
+    for (let wx = x + 6; wx < x + width - 8; wx += stepX) {
+      ctx.fillStyle = random() < 0.15 ? sky : glass;
+      ctx.fillRect(wx, wy, Math.min(6, stepX - 5), 7);
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
 type SkylineLayer = "far" | "mid" | "near";
 
 function drawWindows(
@@ -149,6 +171,7 @@ function drawSkyline(ctx: CanvasRenderingContext2D, p: Palette, mode: "light" | 
     ctx.closePath();
     ctx.fill();
     if (isNight) drawWindows(ctx, p, 8821, towerX + 5, towerTop + 28, towerW - 10, bottom);
+    else drawFacade(ctx, p, 8821, color, towerX, towerTop + 82, towerW, bottom);
   }
 
   let x = -12;
@@ -163,6 +186,7 @@ function drawSkyline(ctx: CanvasRenderingContext2D, p: Palette, mode: "light" | 
       ctx.globalAlpha = !isNight && layer === "far" ? 0.68 : !isNight && layer === "mid" ? 0.82 : 1;
       ctx.fillRect(x, top, buildingW, buildingH);
       if (isNight) drawWindows(ctx, p, 5000 + building * 97, x, top, buildingW, bottom);
+      else if (layer !== "far") drawFacade(ctx, p, 5000 + building * 97, color, x, top, buildingW, bottom);
     }
     x += buildingW + (layer === "far" ? 5 : 10 + random() * 12);
     building++;
