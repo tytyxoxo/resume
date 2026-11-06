@@ -13,6 +13,7 @@ import { PrintButton } from "./PrintButton";
 export const metadata: Metadata = {
   title: "Resume · Passon Rattanakongton",
   description: `Resume for ${profile.name}, ${profile.role} in ${profile.location}.`,
+  alternates: { canonical: "/resume" },
 };
 
 const linkClassName =

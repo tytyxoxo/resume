@@ -25,6 +25,7 @@ export const profile = {
   email: "tyty.passon@gmail.com",
   linkedin: "https://www.linkedin.com/in/passon-rattanakongton",
   resumePdf: "/Passon-Rattanakongton-Resume.pdf", // written by scripts/resume-pdf.mjs
+  site: "https://passonr.vercel.app", // production domain: canonical links, sitemap, share image URL
 };
 
 export type ProjectId = "crm" | "component-library" | "hr-checkin" | "admin-dashboard" | "data-management" | "oms";

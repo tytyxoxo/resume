@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 
 const title = `${profile.name} · ${profile.role}`;
 
-// The share image is src/app/opengraph-image.jpg (regenerate: node scripts/og.mjs). Its absolute URL falls back
-// to VERCEL_PROJECT_PRODUCTION_URL; set metadataBase once the site has its own domain.
+// The share image is src/app/opengraph-image.jpg (regenerate: node scripts/og.mjs).
 export const metadata: Metadata = {
+  metadataBase: new URL(profile.site),
   title,
   description: profile.summary,
   openGraph: { title, description: profile.summary, type: "website", siteName: profile.name },

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HomeScene } from "@/components/scene/HomeScene";
 import { STOPS } from "@/components/scene/journey";
 import { Hero } from "@/components/home/Hero";
@@ -9,6 +10,8 @@ import { allTools, education, experience, learning, type SectionId } from "@/dat
 // A full-screen 3D journey. Each section is one screen of scroll: its card floats beside the object the
 // camera is looking at (wide screens) or docks at the bottom (phones). Every fact is real DOM, rendered
 // on the server; the room illustrates it. Sections let clicks through to the canvas, cards don't.
+export const metadata: Metadata = { alternates: { canonical: "/" } };
+
 function stage(id: SectionId) {
   const card = STOPS[id].card;
   const side = card === "left" ? "side:items-start" : card === "right" ? "side:items-end" : "";
