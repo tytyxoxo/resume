@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Modal } from "@/components/Modal";
 import { CallyDatePicker } from "@/components/CallyDatePicker";
 import { useScene } from "@/components/scene/store";
@@ -31,6 +31,8 @@ export function Contact({ className }: { className: string }) {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [booking, setBooking] = useState({ name: "", email: "", date: "", time: "", note: "" });
   const [bookingStatus, setBookingStatus] = useState<Status>("idle");
+  const [bookingDateError, setBookingDateError] = useState(false);
+  const bookingDateRef = useRef<HTMLDivElement>(null);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -51,22 +53,29 @@ export function Contact({ className }: { className: string }) {
 
   const onBookingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!booking.date) {
+      setBookingDateError(true);
+      setBookingStatus("idle");
+      bookingDateRef.current?.querySelector("button")?.focus();
+      return;
+    }
     setBookingStatus("loading");
     const ok = await send({
       name: booking.name,
       email: booking.email,
-      subject: `Consultation Request: ${booking.date} ${booking.time}`,
+      subject: `Call request: ${booking.date} ${booking.time} (Bangkok time)`,
       message: `Date: ${booking.date}\nTime: ${booking.time}\n\n${booking.note || "No additional notes."}`,
     });
     if (ok) {
       setBookingStatus("success");
+      setBookingDateError(false);
       setBooking({ name: "", email: "", date: "", time: "", note: "" });
     } else {
       setBookingStatus("error");
     }
   };
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: profile.timeZone }).format(new Date());
 
   return (
     <section id="contact" aria-labelledby="contact-heading" className={className}>
@@ -87,6 +96,7 @@ export function Contact({ className }: { className: string }) {
             onClick={() => {
               setBookingOpen(true);
               setBookingStatus("idle");
+              setBookingDateError(false);
             }}
             className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-base-content/15 px-3 py-2 text-sm font-medium text-base-content transition-colors duration-200 hover:border-base-content/35"
           >
@@ -96,7 +106,7 @@ export function Contact({ className }: { className: string }) {
               <line x1="8" x2="8" y1="2" y2="6" />
               <line x1="3" x2="21" y1="10" y2="10" />
             </svg>
-            Book a call
+            Request a call
           </button>
         </div>
 
@@ -141,11 +151,11 @@ export function Contact({ className }: { className: string }) {
       <Modal
         open={bookingOpen}
         onClose={() => setBookingOpen(false)}
-        title="Book a consultation"
+        title="Request a call"
         actions={
           bookingStatus !== "success" ? (
             <button form="booking-form" type="submit" className="btn btn-primary" disabled={bookingStatus === "loading"}>
-              {bookingStatus === "loading" ? "Sending…" : "Confirm booking"}
+              {bookingStatus === "loading" ? "Sending…" : "Send request"}
             </button>
           ) : (
             <button className="btn" onClick={() => setBookingOpen(false)}>Close</button>
@@ -154,8 +164,8 @@ export function Contact({ className }: { className: string }) {
       >
         {bookingStatus === "success" ? (
           <div className="py-4 text-center">
-            <p className="font-semibold text-base-content">Booking request sent</p>
-            <p className="mt-1 text-sm text-base-content/70">I&apos;ll confirm your slot by email.</p>
+            <p className="font-semibold text-base-content">Request sent</p>
+            <p className="mt-1 text-sm text-base-content/70">I&apos;ll confirm the time by email.</p>
           </div>
         ) : (
           <form id="booking-form" className="mt-2 flex flex-col gap-3" onSubmit={onBookingSubmit}>
@@ -170,9 +180,19 @@ export function Contact({ className }: { className: string }) {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="form-control gap-1">
-                <span className={label}>Date</span>
-                <CallyDatePicker name="date" value={booking.date} onChange={(val) => setBooking((prev) => ({ ...prev, date: val }))} min={today} required />
+              <div ref={bookingDateRef} className="form-control gap-1">
+                <span id="booking-date-label" className={label}>Date</span>
+                <CallyDatePicker
+                  name="date"
+                  value={booking.date}
+                  onChange={(val) => {
+                    setBooking((prev) => ({ ...prev, date: val }));
+                    setBookingDateError(false);
+                  }}
+                  min={today}
+                  labelId="booking-date-label"
+                />
+                {bookingDateError && <p role="alert" className="text-xs text-error">Pick a date for the call</p>}
               </div>
               <div className="form-control gap-1">
                 <label htmlFor="booking-time" className={label}>Time slot (Bangkok)</label>

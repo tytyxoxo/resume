@@ -35,7 +35,12 @@ export default function ResumePage() {
         <Link href="/" className={linkClassName}>
           ← Back to home
         </Link>
-        <PrintButton />
+        <div className="flex gap-2">
+          <PrintButton />
+          <a href={profile.resumePdf} download className="btn btn-primary btn-sm">
+            Download PDF
+          </a>
+        </div>
       </div>
 
       <article data-theme="light" className="mx-auto max-w-3xl space-y-6 rounded-xl border border-base-300 bg-base-100 p-8 text-sm leading-relaxed sm:p-12 print:max-w-none print:space-y-3 print:rounded-none print:border-0 print:p-0 print:text-[10.5px] print:leading-[1.35]">
@@ -94,7 +99,7 @@ export default function ResumePage() {
                   <div>
                     <h3 className="font-semibold text-base-content">{role.title}</h3>
                     <p className="text-base-content/70">
-                      {role.company} · {role.location}
+                      {[role.company, role.location].filter(Boolean).join(" · ")}
                     </p>
                   </div>
                   <ul className="list-disc space-y-0.5 pl-4 marker:text-base-content/65 print:space-y-0">
@@ -102,9 +107,11 @@ export default function ResumePage() {
                       <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
-                  <p className="font-mono text-xs text-base-content/65 print:text-[9.5px]">
-                    {role.stack.join(" · ")}
-                  </p>
+                  {role.stack.length > 0 && (
+                    <p className="font-mono text-xs text-base-content/65 print:text-[9.5px]">
+                      {role.stack.join(" · ")}
+                    </p>
+                  )}
                 </div>
               </article>
             ))}

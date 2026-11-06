@@ -19,19 +19,33 @@ import { useScene } from "../store";
 const BOARD = { width: 1.1, height: 0.75, depth: 0.02 };
 const CARD_Z = BOARD.depth + 0.004 + 0.0015 / 2;
 
-const projectLabel = (id: "hr-checkin" | "admin-dashboard" | "oms" | "data-management") => {
+const projectLabel = (id: "crm" | "hr-checkin" | "admin-dashboard" | "oms" | "data-management") => {
   const name = projects.find((project) => project.id === id)!.name;
   return id === "data-management" ? name.replace(" System", "") : name;
 };
 
+const [senior, frontend, editor] = experience;
+
+// Career path from bottom-left to top-right (editor → frontend → senior), each role's projects pinned next to it
+// (four around the frontend card, the CRM under the senior one). Pin positions feed the thread below.
 const papers = [
-  { kind: "role" as const, role: experience[0], size: [0.34, 0.2] as const, position: [-0.27, 0.19] as const, rotation: -0.045 },
-  { kind: "note" as const, label: projectLabel("hr-checkin"), size: [0.17, 0.11] as const, position: [0.03, 0.275] as const, rotation: 0.052 },
-  { kind: "note" as const, label: projectLabel("admin-dashboard"), size: [0.17, 0.11] as const, position: [0.3, 0.2] as const, rotation: -0.036 },
-  { kind: "role" as const, role: experience[1], size: [0.34, 0.2] as const, position: [0.22, -0.115] as const, rotation: 0.043 },
-  { kind: "note" as const, label: projectLabel("oms"), size: [0.17, 0.11] as const, position: [-0.29, -0.115] as const, rotation: -0.06 },
-  { kind: "note" as const, label: projectLabel("data-management"), size: [0.17, 0.11] as const, position: [-0.115, -0.265] as const, rotation: 0.038 },
+  { kind: "role" as const, role: editor, size: [0.34, 0.2] as const, position: [-0.34, -0.2] as const, rotation: 0.04 },
+  { kind: "role" as const, role: frontend, size: [0.34, 0.2] as const, position: [0.0, 0.02] as const, rotation: -0.035 },
+  { kind: "role" as const, role: senior, size: [0.34, 0.2] as const, position: [0.345, 0.245] as const, rotation: 0.045 },
+  { kind: "note" as const, label: projectLabel("hr-checkin"), size: [0.17, 0.11] as const, position: [-0.42, 0.27] as const, rotation: -0.05 },
+  { kind: "note" as const, label: projectLabel("admin-dashboard"), size: [0.17, 0.11] as const, position: [-0.17, 0.275] as const, rotation: 0.04 },
+  { kind: "note" as const, label: projectLabel("oms"), size: [0.17, 0.11] as const, position: [0.36, -0.13] as const, rotation: 0.055 },
+  { kind: "note" as const, label: projectLabel("crm"), size: [0.17, 0.11] as const, position: [0.42, 0.05] as const, rotation: -0.045 },
+  { kind: "note" as const, label: projectLabel("data-management"), size: [0.17, 0.11] as const, position: [0.12, -0.25] as const, rotation: -0.04 },
 ] as const;
+
+// Where the pin sits on a paper (see <Paper>), in board space. The thread runs between the cork and the papers
+// (z 0.0218, radius 0.0015: clear of the cork at 0.02, hidden under papers at 0.024), so it never crosses their text.
+const THREAD_Z = 0.0218;
+const pinOf = (item: (typeof papers)[number]) => {
+  const lift = item.size[1] * 0.34;
+  return new Vector3(item.position[0] - Math.sin(item.rotation) * lift, item.position[1] + Math.cos(item.rotation) * lift, THREAD_Z);
+};
 
 function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number) {
   const words = text.split(" ");
@@ -134,13 +148,11 @@ export function Pinboard() {
     [],
   );
   const thread = useMemo(() => {
-    const curve = new CatmullRomCurve3([
-      new Vector3(0.22, -0.047, 0.0305),
-      new Vector3(0.03, 0.015, 0.032),
-      new Vector3(-0.1, 0.14, 0.032),
-      new Vector3(-0.27, 0.258, 0.0305),
-    ]);
-    return new TubeGeometry(curve, 44, 0.0015, 6, false);
+    const [a, b, c] = papers.slice(0, 3).map(pinOf);
+    // a little slack between pins
+    const sag = (from: Vector3, to: Vector3) => from.clone().lerp(to, 0.5).add(new Vector3(0, -0.02, 0));
+    const curve = new CatmullRomCurve3([a, sag(a, b), b, sag(b, c), c]);
+    return new TubeGeometry(curve, 64, 0.0015, 6, false);
   }, []);
 
   useEffect(() => {
@@ -226,7 +238,7 @@ export function Pinboard() {
           }}
           item={item}
           texture={textures[index]}
-          pinColor={index === 0 ? p.accentSoft : p.pinRed}
+          pinColor={item.kind === "role" && item.role.current ? p.accentSoft : p.pinRed}
         />
       ))}
     </group>

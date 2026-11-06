@@ -1,4 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HomeScene } from "@/components/scene/HomeScene";
 import { STOPS } from "@/components/scene/journey";
 import { Hero } from "@/components/home/Hero";
@@ -44,7 +43,6 @@ export default function Home() {
                       <li key={b}>{b}</li>
                     ))}
                   </ul>
-                  <p className="mt-2 font-mono text-xs text-base-content/65">{role.stack.join(" · ")}</p>
                 </li>
               ))}
             </ol>
@@ -90,7 +88,6 @@ export default function Home() {
 
         <Contact className={stage("contact")} />
       </div>
-      <SpeedInsights />
     </>
   );
 }

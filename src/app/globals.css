@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: all;
+  themes: light --default, dark;
 }
 
 /* Make Tailwind dark: classes respond to daisyUI's data-theme="dark" */
@@ -52,9 +52,6 @@ section[id] {
   }
 }
 
-
-
-
 /* Theme toggle updates instantly, independent from page transition */
 ::view-transition-old(theme-toggle),
 ::view-transition-new(theme-toggle) {
@@ -92,118 +89,24 @@ section[id] {
   to   { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%)); }
 }
 
-/* Scroll reveal */
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes reveal-fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-.reveal {
-  opacity: 0;
-}
-.reveal.visible {
-  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-/* Headings are already in position — fade without movement */
-.reveal.reveal--fade.visible {
-  animation: reveal-fade 0.5s ease forwards;
-}
-
-/* Hero animations */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-/* Hero name: deliberate, expo easing — gives the name weight */
-@keyframes hero-name {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
-}
-.animate-hero-name {
-  opacity: 0;
-  animation: hero-name 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.animate-fade-up {
-  opacity: 0;
-  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-250 { animation-delay: 0.25s; }
-.delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
-.delay-600 { animation-delay: 0.6s; }
-.delay-700 { animation-delay: 0.7s; }
-
-/* Prefers-reduced-motion — accessibility requirement */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; }
-  .reveal.visible { animation: none; }
-  .animate-fade-up { opacity: 1; animation: none; }
-  .animate-hero-name { opacity: 1; animation: none; }
-  .animate-float { animation: none; }
   .animate-pulse { animation: none; }
+  /* the theme switches instantly instead of the circle reveal */
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
 }
 
-/* After the first theme toggle, freeze one-shot hero animations at their
-   completed state. Prevents them re-triggering inside view transitions. */
-[data-animations-settled] .animate-hero-name,
-[data-animations-settled] .animate-fade-up {
-  opacity: 1 !important;
-  animation: none !important;
-}
+/* The navbar's pause button (html[data-motion="reduce"]) does what the OS setting does */
+html[data-motion="reduce"] { scroll-behavior: auto; }
+html[data-motion="reduce"] section[id] { scroll-snap-stop: normal; }
+html[data-motion="reduce"] .animate-pulse { animation: none; }
+html[data-motion="reduce"]::view-transition-old(root),
+html[data-motion="reduce"]::view-transition-new(root) { animation: none !important; }
 
-/* Inset gradient section rule — replaces hard full-width border-t */
-.section-rule {
-  position: relative;
-}
-.section-rule::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: clamp(20rem, 80%, 64rem);
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    color-mix(in oklch, var(--color-base-content) 10%, transparent) 20%,
-    color-mix(in oklch, var(--color-base-content) 10%, transparent) 80%,
-    transparent 100%
-  );
-}
-
-
-/* ── Mobile performance optimizations (< 640px) ────── */
-@media (max-width: 639px) {
-  /* Remove blur filters — GPU-intensive on mobile */
-  .blur-2xl, .blur-3xl { filter: none; }
-
-  /* Show reveal elements immediately — skip IntersectionObserver animation */
-  .reveal { opacity: 1; }
-  .reveal.visible { animation: none; }
-
-  /* Skip hero fade-up animations — reduces LCP delay */
-  .animate-fade-up { opacity: 1; animation: none; }
-  .animate-hero-name { opacity: 1; animation: none; }
-
-  /* Stop continuous animations */
-  .animate-float { animation: none; }
-  .animate-ping  { animation: none; }
-
-  /* Remove dot pattern backgrounds */
+/* Tailwind's preflight placeholder is 50% (about 3.9:1); keep it at the /65 floor used for informational text */
+input:not(:disabled)::placeholder,
+textarea:not(:disabled)::placeholder {
+  color: color-mix(in oklab, currentcolor 65%, transparent);
 }
 
 /* Navbar section label fade-in on section change */

@@ -14,5 +14,5 @@ export const STOPS: Record<SectionId, Stop> = {
   experience: { pos: [0.75, 1.6, -0.25], target: [-1.6, 1.5, -0.6], card: "left", lift: 0.24, span: 0.6 },
   education: { pos: [0.35, 1.35, 1.75], target: [-1.6, 1.12, 0.6], card: "right", lift: 0.24, span: 0.6 },
   skills: { pos: [0.84, 1.28, -0.28], target: [0.56, 0.77, -1.0], card: "left", lift: 0.26, span: 0.6 },
-  contact: { pos: [1.42, 1.36, -0.5], target: [0.74, 1.2, -1.58], card: "right", lift: 0.3, span: 0.6 },
+  contact: { pos: [1.42, 1.53, -0.44], target: [0.8, 1.3, -1.58], card: "right", lift: 0.3, span: 0.6 },
 };

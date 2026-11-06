@@ -5,9 +5,12 @@ import { projects } from "@/data/resume";
 import { useScene } from "@/components/scene/store";
 
 // Vertical project tabs: every name stays visible for scanning, the selected one opens on the 3D monitor.
+// Hover only previews on the monitor; selecting on hover made the panel change under the pointer on its way
+// to "Live demo", and the changing panel height moved the tabs under a resting pointer (flicker loop).
 export function WorkTabs() {
   const active = useScene((s) => s.project);
   const setProject = useScene((s) => s.setProject);
+  const setPreview = useScene((s) => s.setPreview);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const onKeyDown = (e: React.KeyboardEvent, i: number) => {
@@ -21,7 +24,7 @@ export function WorkTabs() {
 
   return (
     <div>
-      <div role="tablist" aria-label="Projects" aria-orientation="vertical" className="flex flex-col">
+      <div role="tablist" aria-label="Projects" aria-orientation="vertical" className="flex flex-col" onMouseLeave={() => setPreview(null)}>
         {projects.map((p, i) => {
           const on = p.id === active;
           return (
@@ -37,7 +40,7 @@ export function WorkTabs() {
               aria-controls={`panel-${p.id}`}
               tabIndex={on ? 0 : -1}
               onClick={() => setProject(p.id)}
-              onMouseEnter={() => setProject(p.id)}
+              onMouseEnter={() => setPreview(p.id)}
               onKeyDown={(e) => onKeyDown(e, i)}
               className={`flex cursor-pointer items-baseline gap-3 rounded-lg px-3 py-1.5 text-left text-sm transition-colors focus-visible:outline-2 focus-visible:outline-primary pointer-coarse:py-3 ${
                 on ? "bg-base-200 font-medium text-base-content" : "text-base-content/65 hover:text-base-content"
@@ -49,29 +52,32 @@ export function WorkTabs() {
           );
         })}
       </div>
-      {projects.map((p) => (
-        <div key={p.id} id={`panel-${p.id}`} role="tabpanel" aria-labelledby={`tab-${p.id}`} hidden={p.id !== active} className="mt-4 px-3">
-          <p className="font-mono text-xs text-base-content/65">
-            {p.kind} · {p.status}
-          </p>
-          <p className="mt-1.5 text-sm leading-relaxed text-base-content/80 text-pretty">{p.desc}</p>
-          <p className="mt-2 font-mono text-xs text-base-content/65">{p.stack.join(" · ")}</p>
-          {(p.demo || p.source) && (
-            <p className="mt-2 flex gap-4 text-sm">
-              {p.demo && (
-                <a href={p.demo} target="_blank" rel="noopener noreferrer" className="font-medium text-base-content underline-offset-4 hover:underline">
-                  Live demo
-                </a>
-              )}
-              {p.source && (
-                <a href={p.source} target="_blank" rel="noopener noreferrer" className="font-medium text-base-content underline-offset-4 hover:underline">
-                  Source
-                </a>
-              )}
+      {/* every panel shares one grid cell, so the card keeps the tallest panel's height whichever is shown */}
+      <div className="mt-4 grid">
+        {projects.map((p) => (
+          <div key={p.id} id={`panel-${p.id}`} role="tabpanel" aria-labelledby={`tab-${p.id}`} className={`col-start-1 row-start-1 px-3 ${p.id === active ? "" : "invisible"}`}>
+            <p className="font-mono text-xs text-base-content/65">
+              {p.kind} · {p.status}
             </p>
-          )}
-        </div>
-      ))}
+            <p className="mt-1.5 text-sm leading-relaxed text-base-content/80 text-pretty">{p.desc}</p>
+            <p className="mt-2 font-mono text-xs text-base-content/65">{p.stack.join(" · ")}</p>
+            {(p.demo || p.source) && (
+              <p className="mt-2 flex gap-4 text-sm">
+                {p.demo && (
+                  <a href={p.demo} target="_blank" rel="noopener noreferrer" className="font-medium text-base-content underline-offset-4 hover:underline">
+                    Live demo
+                  </a>
+                )}
+                {p.source && (
+                  <a href={p.source} target="_blank" rel="noopener noreferrer" className="font-medium text-base-content underline-offset-4 hover:underline">
+                    Source
+                  </a>
+                )}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

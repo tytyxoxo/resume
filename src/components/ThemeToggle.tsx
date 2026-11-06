@@ -17,8 +17,9 @@ export function ThemeToggle() {
           y: rect.top + rect.height / 2,
         });
       }}
-      aria-label="Toggle dark mode"
-      className="relative rounded-full transition-colors duration-500 focus:outline-none w-11 h-[1.375rem] sm:w-14 sm:h-7 cursor-default"
+      aria-pressed={isDark}
+      aria-label="Dark mode"
+      className="relative rounded-full transition-colors duration-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary w-11 h-[1.375rem] sm:w-14 sm:h-7 cursor-pointer"
       style={
         {
           viewTransitionName: "theme-toggle",
@@ -34,11 +35,12 @@ export function ThemeToggle() {
             : "translateX(0)",
           background: isDark ? "oklch(20% 0.03 260)" : "oklch(100% 0 0)",
           transition:
-            "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease",
+            "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s ease",
         }}
       >
         {/* Sun */}
         <svg
+          aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           className="absolute transition-[transform,opacity] duration-500 h-3 w-3 sm:h-3.5 sm:w-3.5"
           fill="none"
@@ -62,6 +64,7 @@ export function ThemeToggle() {
 
         {/* Moon */}
         <svg
+          aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           className="absolute transition-[transform,opacity] duration-500 h-3 w-3 sm:h-3.5 sm:w-3.5"
           fill="none"
