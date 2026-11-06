@@ -45,3 +45,6 @@ node scripts/resume-pdf.mjs                  # regenerate public/Passon-Rattanak
 The smoke test hovers and clicks every 3D object (through a development-only `window.__scene` probe), switches the
 theme with the desk lamp, walks the stops with the arrow keys, opens a project tab, sends the contact form against
 a mocked API (no real email), checks touch scrolling on a phone viewport and that `/resume` prints on one A4 page.
+
+If a CSS or Tailwind change has no effect in development, the Turbopack dev cache may be stale: stop `npm run dev`,
+`rm -rf .next/dev`, start it again (`next build` shows what the CSS really produces).

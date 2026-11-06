@@ -2,6 +2,22 @@
 
 Newest first. Each entry: decision, reason, trade-off, alternatives rejected.
 
+## 2026-11-06 (evening) — weak devices, short screens, Safari engine check
+
+### Adaptive pixel density
+- drei `PerformanceMonitor` drops the canvas to 1x pixels while the frame rate is low and restores the maximum (2x, 1.5x on touch screens) when it recovers; after 3 flips it stays at 1x. The `[1, max]` range form is kept so 1x screens never render above their resolution.
+- Pinboard pins are just the head now (the needle was invisible from the cameras): 249 → 241 draw calls at the overview.
+
+### Short wide screens (`short:` variant)
+- `min-width 1024px`, landscape and `max-height 820px` (1366×768, 1280×720, 1536×864 laptops with browser chrome): tighter stage and card padding, list spacing and line height. Measured: the Experience card overflowed by 96 / 106 / 169 px at 1536×730 / 1280×720 / 1366×657; now it fits except +25 px at 1366×657, and Skills and Contact fit everywhere.
+- Gotcha: the Turbopack dev cache kept serving the old CSS after the variant was added (0 rules in dev, 10 in `next build`); fixed by `rm -rf .next/dev` (README).
+
+### Skills
+- Git out, Redux Toolkit in (used by the CRM); the macropad keeps eight keys.
+
+### Safari engine check
+- Playwright WebKit 26.4, desktop 1440×900 and iPhone 15 emulation: the scene renders, contact form, call request dialog, theme switch and the PDF link work, no console errors. Not a substitute for a real iPhone (touch scrolling feel, address bar resizing).
+
 ## 2026-11-06 (afternoon) — owner answers, Work tab fix
 
 ### Experience: projects under the role that built them, the 2019–2023 gap filled (SPEC Q1 = A, Q2)
