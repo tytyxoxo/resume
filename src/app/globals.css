@@ -19,6 +19,13 @@
   }
 }
 
+/* Wide but short screens (1366×768 and 1280×720 laptops): tighter cards, so a stop still fits one screen */
+@custom-variant short {
+  @media (min-width: 1024px) and (min-aspect-ratio: 1/1) and (max-height: 820px) {
+    @slot;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;

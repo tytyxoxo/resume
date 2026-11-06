@@ -171,8 +171,8 @@ export const education = [
 ];
 
 // Hero stack line and the 3D macropad legends (8 keys) come from these two lists.
-export const stack = ["React", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS", "Figma"];
-export const toolchain = ["Next.js", "Tailwind CSS", "Git", "Figma", "Vite"];
+export const stack = ["React", "Next.js", "JavaScript", "TypeScript", "Redux Toolkit", "Tailwind CSS", "Figma"];
+export const toolchain = ["Next.js", "Tailwind CSS", "Figma", "Vite"];
 export const allTools = [...new Set([...stack, ...toolchain])];
 
 export const learning = [

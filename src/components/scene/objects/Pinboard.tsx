@@ -123,16 +123,11 @@ const Paper = forwardRef<Group, {
         <boxGeometry args={[width, height, 0.0015]} />
         <meshStandardMaterial map={texture} roughness={0.92} />
       </mesh>
-      <group position={[0, height * 0.34, 0.001]} rotation-x={Math.PI / 2}>
-        <mesh position={[0, 0.004, 0]}>
-          <cylinderGeometry args={[0.0035, 0.0035, 0.008, 10]} />
-          <meshStandardMaterial color={pinColor} roughness={0.55} />
-        </mesh>
-        <mesh position={[0, 0.012, 0]}>
-          <sphereGeometry args={[0.008, 12, 8]} />
-          <meshStandardMaterial color={pinColor} roughness={0.48} />
-        </mesh>
-      </group>
+      {/* just the head: the needle was invisible from the cameras and cost a draw call per paper */}
+      <mesh position={[0, height * 0.34, 0.009]}>
+        <sphereGeometry args={[0.008, 12, 8]} />
+        <meshStandardMaterial color={pinColor} roughness={0.48} />
+      </mesh>
     </group>
   );
 });
