@@ -2,6 +2,56 @@
 
 Newest first. Each entry: decision, reason, trade-off, alternatives rejected.
 
+## 2026-11-06 (afternoon) — owner answers, Work tab fix
+
+### Experience: projects under the role that built them, the 2019–2023 gap filled (SPEC Q1 = A, Q2)
+- HR CheckIn Dashboard (2025) and Admin Dashboard (2024) moved from Senior (2026 – Present) to Frontend Developer (2023 – 2025), whose stack now lists what its projects used.
+- Senior's 2026 work is the company's internal CRM (owner: "มีเป็น CRM แต่ว่าเป็นภายในองค์กร"). Facts taken read-only from the CRM repo: the owner's commits start 2026-08-21 (all 176 in 2026); React, TypeScript, Redux Toolkit, Tailwind CSS; areas from its page list (campaigns, customers and follow-ups, orders, supervisor dashboards, role permissions). Written as "Outbound CRM", Internal, Production (owner confirmed it is in use and that this level of detail can be public), with no vendor names or internal numbers; the monitor shows a mock call list (made-up names), like the other internal projects. Senior's stack follows the CRM (Next.js moved with the dashboards).
+- 2019 – 2023: "Video Editor & Motion Graphics · Freelance", work through personal referrals while moving into frontend development (owner: a rest, then a career change; video editing and motion graphics via people they knew). No location: not given.
+- The home Experience card drops the per-role stack line (the Work card and Skills already show it; `/resume` keeps it), so three roles still fit a 900 px tall screen. Shorter screens (< ~760 px) scroll that section a little; the card stays page-scrolled, no inner scroll.
+- Pinboard: three role cards from bottom-left (editor) to top-right (senior), each role's project notes next to it (four around the frontend card, the CRM under the senior one), the thread between the role pins. The thread runs between the cork and the papers so it never crosses their text.
+
+### Work tabs: hover previews, click selects (bug: flicker)
+- **Bug:** hovering selected the tab, the panels had different heights (459–509 px), and the card is centred (bottom-docked on phones), so the tabs moved under a resting pointer and the selection flipped back and forth (reproduced: 91 flips in 1.5 s at 390×844, 13 flicker positions at 1440×900). Moving the mouse down from a tab to its "Live demo" link also re-selected every tab on the way.
+- **Fix:** all panels share one grid cell (the card keeps the tallest panel's height; inactive panels `invisible`), and hover only sets `preview` in the store, shown on the 3D monitor until the pointer leaves the list. Click and arrow keys select. Smoke checks both.
+
+### Pause animations button (WCAG 2.2.2)
+- A navbar button on the home page (`aria-pressed`, hidden when the OS already asks for reduced motion) sets `motionOff` in the store; `useReducedMotion()` = OS setting or `motionOff`, so the room behaves exactly as with `prefers-reduced-motion` (no loops, cuts instead of camera flights). Saved in `localStorage` and applied before first paint (`html[data-motion="reduce"]` mirrors the CSS rules). On phones the stop label leaves the navbar to make room (the card shows it).
+
+### Downloadable PDF (SPEC Q12 = B)
+- `public/Passon-Rattanakongton-Resume.pdf`, written from `/resume` by `node scripts/resume-pdf.mjs` (Chrome print, one A4 page, fonts embedded as subsets, which the Satoshi license allows for documents). `/resume` offers "Download PDF" next to "Print". The smoke test fails while the PDF is older than `src/data/resume.ts` or the resume page.
+
+### Tooling
+- Impeccable skill updated to v4.8.0 (in `tyty/.claude` and this repo's `.claude`/`.gemini`). The updater also installed design-check hooks (`.claude/settings.local.json`: session start, after Edit/Write, on Stop) and four `impeccable-*` agents; existing local permissions were kept.
+
+## 2026-11-06 — polish round (owner: "แก้ไขเพิ่มเติมได้เลย")
+
+### Old `/portfolio` and `/contact` redirect into the journey
+- **Decision:** `next.config.ts` redirects `/portfolio` → `/#work` and `/contact` → `/#contact`; the old pages (and `Reveal`/`useReveal`, their only users) are deleted. `/playground` and `/svln` stay but are `noindex` (their own `layout.tsx`).
+- **Reason:** they repeated the home content in the old design and had drifted; links already shared keep working.
+- **Trade-off:** 307 (temporary) for now, so the owner can still bring a page back without browsers caching the redirect; switch to `permanent: true` once confirmed (SPEC Q8).
+
+### Navbar
+- A "Resume" link (`aria-current="page"` on `/resume`): recruiters reach the printable resume from every stop, not only from the hero.
+- The stop label reads `section` from the scene store (set by the journey's scroll handler) instead of its own `scrollend` detection: one source, and older Safari has no `scrollend`. Label contrast /50 → /70.
+
+### Booking is a request, not a booking
+- Copy says "Request a call" / "Send request" / "I'll confirm the time by email": nothing checks availability. The date minimum is today in Asia/Bangkok (was UTC, so 00:00–06:59 allowed yesterday); a request without a date is stopped with an inline alert (hidden inputs are never validated by the browser); `cally` loads when the date button is reached, not with the page.
+
+### Share image from the real scene
+- `src/app/opengraph-image.jpg` (1200×630, light theme) is a capture of the hero room with the name, regenerated by `node scripts/og.mjs [--dark]`. Absolute URLs fall back to `VERCEL_PROJECT_PRODUCTION_URL` (checked in Next's `resolve-url.js`); set `metadataBase` when the site gets its own domain.
+- **Rejected:** `next/og` `ImageResponse` (would redraw the room in Satori, not the real render); a hand-made image (goes stale).
+
+### Satoshi stays on the Fontshare CDN (owner decision pending)
+- The ITF Free Font License 2.0 allows self-hosting for your own site, but forbids making the font files available through "a repository" or "publicly accessible servers"; this repo is public on GitHub, so committing the `.woff2` is not clearly allowed. Added `preconnect` to `cdn.fontshare.com` (the font files) next to `api.fontshare.com` (the CSS). Options for the owner: make the repo private and self-host, or switch to Geist Sans via `next/font` (SPEC Q11).
+
+### Smaller rules
+- Only the `light` and `dark` daisyUI themes ship; the inline theme script applies only `dark` (a stale value from the old 35-theme selector can't break the page).
+- CSP: production drops `'unsafe-eval'` (React dev tooling only) and adds `object-src 'none'; base-uri 'self'; frame-ancestors 'none'`. Verified with `next start`: the scene renders, no CSP errors.
+- `SpeedInsights` moved to the layout (now also measures `/resume`), rendered in production only: in development it loads a debug script from a third-party CDN the CSP blocks.
+- Placeholders at the /65 floor (Tailwind's preflight 50% measured 3.9:1); reduced motion turns off the circle reveal of the theme switch; the old design's reveal/hero animation CSS was removed (no users left).
+- Daytime skyline buildings get faint glass rows so they read as towers; the contact stop was reframed so the plant no longer pokes out under the card.
+
 ## 2026-11-05 (evening) — full-screen 3D journey, information in the room
 
 ### The home page is a full-screen 3D journey (supersedes the split layout below)

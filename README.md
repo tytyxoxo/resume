@@ -36,7 +36,11 @@ Environment (`.env.local`):
 ```bash
 node scripts/smoke.mjs                       # needs `npm run dev`; drives the real page with system Chrome
 node scripts/shot.mjs / /tmp/x.png --scroll=work --dark   # screenshot one journey stop
+node scripts/og.mjs                          # regenerate the share image src/app/opengraph-image.jpg
+node scripts/resume-pdf.mjs                  # regenerate public/Passon-Rattanakongton-Resume.pdf after editing the data
 ```
+
+`/portfolio` and `/contact` (the old pages) redirect to `/#work` and `/#contact`.
 
 The smoke test hovers and clicks every 3D object (through a development-only `window.__scene` probe), switches the
 theme with the desk lamp, walks the stops with the arrow keys, opens a project tab, sends the contact form against
