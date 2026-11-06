@@ -1,6 +1,7 @@
 # Passon Rattanakongton — portfolio and resume
 
 A full-screen 3D journey through a small room, Passon's desk in Bangkok, plus a printable one-page resume.
+Live: https://passonr.vercel.app
 Next.js 16 (App Router, Turbopack), React 19, Tailwind CSS 4 + daisyUI 5, three.js with @react-three/fiber 9
 and @react-three/drei 10.
 
